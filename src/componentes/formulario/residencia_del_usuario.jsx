@@ -24,7 +24,7 @@ export function Residencia() {
     setMunicipio(null); //Reinicia el municipio seleccionado al cambiar la residencia.
 
     fetch(
-      "https://apis.datos.gob.ar/georef/api/v2.1/municipios?provincia=buenos%20aires&max=200&campos=id,nombre&orden=nombre"
+      "https://apis.datos.gob.ar/georef/api/municipios?provincia=buenos%20aires&max=200&campos=id,nombre&orden=nombre"
     )
       .then((res) => res.json())
       .then((data) => setMunicipios(data.municipios || []));
