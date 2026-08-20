@@ -7,7 +7,6 @@ export function DatosPersonales(){
                         <label htmlFor="exampleInputEmail1">Correo electronico</label>
                         <input type="text" className="form-control" id="exampleInputEmail1" placeholder="Ingrese su correo electronico" />
                     </div>
-                    <button type="submit" className="btn btn-primary">Enviar</button>
                 </form>
             </div>
         </>

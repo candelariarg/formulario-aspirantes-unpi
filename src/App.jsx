@@ -1,6 +1,6 @@
 import React from 'react';
 import "./App.css";
-import { BaseForm } from "./components/formulario/Base"
+import { BaseForm } from "./componentes/formulario/Base"
 
 function App() {
   return (

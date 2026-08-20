@@ -3,6 +3,7 @@ import { useState } from "react";
 import { DatosPersonales } from "./DatosPersonales";
 import { FormacionAcademica } from "./formacion_maxima";
 import { EnviarCV } from "./enviar_cv";
+import { Residencia } from "./residencia_del_usuario";
 
 export function BaseForm() {
 
@@ -16,6 +17,10 @@ export function BaseForm() {
         <>
             <div className="datos-personales">
                 <DatosPersonales />
+            </div>
+
+            <div className="residencia">
+                <Residencia />
             </div>
 
             <div className="formacion-academica">
