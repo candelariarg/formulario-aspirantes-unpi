@@ -1,9 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { DatosPersonales } from "./DatosPersonales";
-import { FormacionAcademica } from "./formacion_maxima";
-import { EnviarCV } from "./enviar_cv";
-import { Residencia } from "./residencia_del_usuario";
+import { FormacionAcademica } from "./Formacion_maxima";
+import { EnviarCV } from "./Enviar_cv";
+import { Residencia } from "./Residencia_del_usuario";
 
 export function BaseForm() {
     // aca vamos a crear todas las variables que vamos a usar en el formulario, sirven para almacenar los datos que el usuario va ingresando
@@ -39,7 +39,7 @@ export function BaseForm() {
     // recibir los datos
     return (
         <>
-        <h1>Formulario de postulacion Docente UNPI</h1>
+            <h1>Formulario de postulacion Docente UNPI</h1>
             <form onSubmit={handleSumbitForm}>
                 <div className="datos-personales">
                     <DatosPersonales user={user} onChange={handleUsernameInput} />
