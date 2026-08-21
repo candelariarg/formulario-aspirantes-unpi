@@ -13,6 +13,9 @@ export function Residencia() {
   const [localidades, setLocalidades] = useState([]); //Para almacenar la lista de localidades de la API.
   const [busquedaLocalidad, setBusquedaLocalidad] = useState(""); //Para almacenar el texto de búsqueda de la localidad y mostrarlo en el dropdown.
 
+  const [calle, setCalle] = useState(""); //Para almacenar la calle ingresada.
+  const [altura, setAltura] = useState(""); //Para almacenar la altura ingresada.
+
 //Carga la lista de municipios cuando eligen PBA.
   useEffect(() => {
     if (residencia !== "PBA") {
@@ -54,6 +57,11 @@ export function Residencia() {
   const localidadesFiltradas = localidades.filter((l) =>
     l.nombre.toLowerCase().includes(busquedaLocalidad.toLowerCase())
   );
+
+//Muestra el campo Calle y Altura:
+//En CABA, recien cuando se elige esa opción.
+//En PBA, recién cuando ya hay localidad elegida.
+  const mostrarDireccion = residencia === "CABA" || (residencia === "PBA" && localidad);
 
   return (
     <Container className="mt-3">
@@ -140,6 +148,30 @@ export function Residencia() {
               </Dropdown.Menu>
             </Dropdown>
           </Col>
+        )}
+
+        {mostrarDireccion && (
+          <>
+            <Col md={4}>
+              <Form.Label>Calle</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Ej: Av. Rivadavia"
+                value={calle}
+                onChange={(e) => setCalle(e.target.value)}
+              />
+            </Col>
+
+            <Col md={4}>
+              <Form.Label>Altura</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Ej: 1234"
+                value={altura}
+                onChange={(e) => setAltura(e.target.value)}
+              />
+            </Col>
+          </>
         )}
       </Row>
     </Container>
