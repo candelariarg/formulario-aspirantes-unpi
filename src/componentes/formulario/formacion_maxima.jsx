@@ -40,7 +40,7 @@ export function FormacionAcademica() {
                 <div>
                     <label htmlFor="inlineCheckbox1">Experiencia en Docencia universitaria?</label>
                     <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="Si" />
-                    <label className="form-check-label" htmlFor="inlineCheckbox1">Si, poseo experiencia en docencia universitaria. Detalle en el campo "Otras formaciones".</label>
+                    <label className="form-check-label" htmlFor="inlineCheckbox1">Si, poseo experiencia en docencia universitaria.</label>
                     <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="Si" />
                     <label className="form-check-label" htmlFor="inlineCheckbox1">No, no poseo experiencia en docencia universitaria.</label>
                 </div>
