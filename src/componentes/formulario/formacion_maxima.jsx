@@ -30,7 +30,20 @@ export function FormacionAcademica() {
                     </div>
                     <input type="text" className="form-control" placeholder="Otras formaciones"/>
                 </div>
-                <input className="linkedin-input" type="text" placeholder="url de perfil Linkedin" />
+                <div className="input-group">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text" id=""><i class="bi bi-linkedin"></i></span>
+                    </div>
+                    <input type="text" className="form-control" placeholder="url de perfil Linkedin" />
+                </div>
+
+                <div>
+                    <label htmlFor="inlineCheckbox1">Experiencia en Docencia universitaria?</label>
+                    <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="Si" />
+                    <label className="form-check-label" htmlFor="inlineCheckbox1">Si, poseo experiencia en docencia universitaria. Detalle en el campo "Otras formaciones".</label>
+                    <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="Si" />
+                    <label className="form-check-label" htmlFor="inlineCheckbox1">No, no poseo experiencia en docencia universitaria.</label>
+                </div>
             </form>
         </>
     )
