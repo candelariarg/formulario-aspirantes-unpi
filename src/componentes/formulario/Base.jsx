@@ -31,7 +31,7 @@ export function BaseForm() {
                 <EnviarCV />
             </div>
 
-        
+            
 
 
 
