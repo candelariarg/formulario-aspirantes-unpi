@@ -16,6 +16,7 @@ export function BaseForm() {
         correo: '',
         residencia: '',
         formacion: '',
+        otrasFormaciones: '',
         linkedin: '',
         experiencia: '',
         cv: ''

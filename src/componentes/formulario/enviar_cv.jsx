@@ -1,12 +1,12 @@
-export function EnviarCV() {
+import React from "react";
+
+export function EnviarCV({ user, onChange }) {
     return (
-        <>
-            <form>
-                <div className="form-group">
-                    <label htmlFor="exampleFormControlFile1">Ingrese su CV aqui:</label>
-                    <input type="file" className="form-control-file" id="exampleFormControlFile1" />
-                </div>
-            </form>
-        </>
-    )
+        <div className="mb-3">
+            <label htmlFor="cvInput" className="form-label">
+                Ingrese su CV aquí (solo formato PDF):
+            </label>
+            <input type="file" className="form-control" id="cvInput" name="cv" accept=".pdf,application/pdf" onChange={onChange} />
+        </div>
+    );
 }
