@@ -34,6 +34,11 @@ export function BaseForm() {
     // que va a tomar todos los valores de prevUser y los va a pasar a user)
     const handleUsernameInput = (e) => {
         const { name, value } = e.target;
+        if (name === "dni" || name === "telefono") {
+            const soloNumeros = value.replace(/\D/g, "");
+            setUser(prevUser => ({ ...prevUser, [name]: soloNumeros }));
+            return;
+        }
         setUser(prevUser => ({ ...prevUser, [name]: value }))
     }
     // Aca es donde se renderiza los componentes del formulario, le asignamos el state 'user' y la funcion 'handleUsernameInput' a cada componente que necesite 

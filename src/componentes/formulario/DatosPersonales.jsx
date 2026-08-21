@@ -25,11 +25,11 @@ export function DatosPersonales({ user, onChange }) {
                     <div className="input-group">
                         <span className="input-group-text" id="">DNI</span>
                     </div>
-                    <input type="text" className="form-control" name="dni" value={user?.dni || ""} onChange={onChange} />
+                    <input type="text" inputMode="numeric" pattern="[0-9]*" className="form-control" name="dni" value={user?.dni || ""} onChange={onChange} />
                     <div className="input-group">
                         <span className="input-group-text" id="">telefono</span>
                     </div>
-                    <input type="text" className="form-control" name="telefono" value={user?.telefono || ""} onChange={onChange} />
+                    <input type="text" inputMode="numeric" pattern="[0-9]*" className="form-control" name="telefono" value={user?.telefono || ""} onChange={onChange} />
                 </div>
 
 
