@@ -1,8 +1,12 @@
 export function FormacionAcademica() {
+    // aca utilizo inputs de tipo texto y checkbox para poder asignar los valores de estudio maximo que tiene el usuario y experiencia en docencia
+     
     return (
         <>
-            <form>
+        <h3>Formacion Academica</h3>
+            <form>  
                 <div className="form-check form-check-inline">
+                    <label htmlFor="">Nivel Maximo de titulacion (marcar solo uno)</label>
                     <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="Pregrado" />
                     <label className="form-check-label" htmlFor="inlineCheckbox1">Pregrado</label>
                 </div>
