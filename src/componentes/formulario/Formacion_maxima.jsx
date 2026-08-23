@@ -5,7 +5,7 @@ export function FormacionAcademica({ user, onChange }) {
 
     return (
         <>
-            <h3>Formacion Academica</h3>
+            <h5>Formacion Academica</h5>
             <div>
                 <label className="d-block">Nivel Maximo de titulacion (marcar solo uno)</label>
                 <div className="form-check form-check-inline">
@@ -30,14 +30,14 @@ export function FormacionAcademica({ user, onChange }) {
                 </div>
             </div>
 
-            <div>
-                <div className="input-group">
+            <div className="div-otras-formaciones mx-auto" style={{ maxWidth: "500px" }}>
+                <div className="input-group mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="">Otras Formaciones <i className="bi bi-bookmark"></i></span>
                     </div>
                     <input type="text" className="form-control" name="otrasFormaciones" value={user?.otrasFormaciones || ""} onChange={onChange} />
                 </div>
-                <div className="input-group">
+                <div className="input-group mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="">Perfil de Linkedin <i className="bi bi-linkedin"></i></span>
                     </div>

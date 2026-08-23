@@ -1,3 +1,4 @@
+import { Residencia } from "./Residencia_del_usuario";
 export function DatosPersonales({ user, onChange }) {
     // aca voy a crear la estructura que va a tener el formulario, por ejemplo el nombre, apellido, dni, telefono, etc
     // uso el  el componente 'div' para crear los campos del formulario, el componente 'input-group' para agrupar los campos, 
@@ -10,34 +11,103 @@ export function DatosPersonales({ user, onChange }) {
 
     return (
         <>
-            <h3 align="center">Datos Personales</h3>
-            <div className="datos-personales">
-                <div className="input-group">
-                    <div className="input-group-prepend">
-                        <span className="input-group-text" id="">Nombre</span>
-                    </div>
-                    <input type="text" className="form-control" name="nombre" value={user?.nombre || ""} onChange={onChange} />
+            <h5 className="text-center mb-4">Datos Personales</h5>
 
+            <div className="row">
+                {/* Nombre */}
+                <div className="col-md-6 mb-3">
                     <div className="input-group">
-                        <span className="input-group-text" id="">Apellido</span>
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">Nombre</span>
+                        </div>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="nombre"
+                            value={user?.nombre || ""}
+                            onChange={onChange}
+                        />
                     </div>
-                    <input type="text" className="form-control" name="apellido" value={user?.apellido || ""} onChange={onChange} />
-                    <div className="input-group">
-                        <span className="input-group-text" id="">DNI</span>
-                    </div>
-                    <input type="text" inputMode="numeric" pattern="[0-9]*" className="form-control" name="dni" value={user?.dni || ""} onChange={onChange} />
-                    <div className="input-group">
-                        <span className="input-group-text" id="">telefono</span>
-                    </div>
-                    <input type="text" inputMode="numeric" pattern="[0-9]*" className="form-control" name="telefono" value={user?.telefono || ""} onChange={onChange} />
                 </div>
 
-
-                <div className="form-group">
+                {/* Apellido */}
+                <div className="col-md-6 mb-3">
                     <div className="input-group">
-                        <span className="input-group-text" id="">Correo electronico</span>
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">Apellido</span>
+                        </div>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="apellido"
+                            value={user?.apellido || ""}
+                            onChange={onChange}
+                        />
                     </div>
-                    <input type="text" className="form-control" name="correo" value={user?.correo || ""} onChange={onChange} />
+                </div>
+
+                {/* DNI */}
+                <div className="col-md-6 mb-3">
+                    <div className="input-group">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">DNI</span>
+                        </div>
+                        <input
+                            type="text"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            className="form-control"
+                            name="dni"
+                            value={user?.dni || ""}
+                            onChange={onChange}
+                        />
+                    </div>
+                </div>
+
+                {/* Teléfono */}
+                <div className="col-md-6 mb-3">
+                    <div className="input-group">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">Teléfono</span>
+                        </div>
+                        <input
+                            type="text"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            className="form-control"
+                            name="telefono"
+                            value={user?.telefono || ""}
+                            onChange={onChange}
+                        />
+                    </div>
+                </div>
+
+                {/* Correo electrónico */}
+                <div className="col-md-6 mb-3">
+                    <div className="input-group">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">Correo electrónico</span>
+                        </div>
+                        <input
+                            type="email"
+                            className="form-control"
+                            name="correo"
+                            value={user?.correo || ""}
+                            onChange={onChange}
+                        />
+                    </div>
+                </div>
+
+                <div className="col-md-6 mb-3">
+                    <div className="input-group">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">Direccion</span>
+                        </div>
+
+                        <Residencia user={user} onChange={onChange} />
+
+                    </div>
+
                 </div>
 
             </div>

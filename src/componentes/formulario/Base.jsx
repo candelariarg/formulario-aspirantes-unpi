@@ -3,7 +3,7 @@ import { useState } from "react";
 import { DatosPersonales } from "./DatosPersonales";
 import { FormacionAcademica } from "./Formacion_maxima";
 import { EnviarCV } from "./Enviar_cv";
-import { Residencia } from "./Residencia_del_usuario";
+
 
 export function BaseForm() {
     // aca vamos a crear todas las variables que vamos a usar en el formulario, sirven para almacenar los datos que el usuario va ingresando
@@ -45,28 +45,29 @@ export function BaseForm() {
     // recibir los datos
     return (
         <>
-            <h1>Formulario de postulacion Docente UNPI</h1>
-            <form onSubmit={handleSumbitForm}>
-                <div className="datos-personales">
-                    <DatosPersonales user={user} onChange={handleUsernameInput} />
+            <h3 className="mb-4 text-center">Formulario de postulacion Docente UNPI</h3>
+            <div className="card mx-auto" style={{ maxWidth: "950px", minHeight: "100vh" }}>
+                <div className="card-body">
+                    <img src="./logo-unpi.png" alt="logo-unpi" style={{ width: "50%", margin: "0 auto" }} />
+                    <form onSubmit={handleSumbitForm}>
+                        <div className="datos-personales mb-2">
+                            <DatosPersonales user={user} onChange={handleUsernameInput} />
+                        </div>
+
+                        <div className="formacion-academica mb-2">
+                            <FormacionAcademica user={user} onChange={handleUsernameInput} />
+                        </div>
+
+                        <div className="enviar-cv mb-2">
+                            <EnviarCV user={user} onChange={handleUsernameInput} />
+                        </div>
+
+                        <button onSubmit={handleSumbitForm} type="submit" className="btn btn-primary">Enviar</button>
+
+                    </form>
                 </div>
 
-                <div className="residencia">
-                    <Residencia user={user} onChange={handleUsernameInput} />
-                </div>
-
-                <div className="formacion-academica">
-                    <FormacionAcademica user={user} onChange={handleUsernameInput} />
-                </div>
-
-                <div className="enviar-cv">
-                    <EnviarCV user={user} onChange={handleUsernameInput} />
-                </div>
-
-                <button onSubmit={handleSumbitForm} type="submit" className="btn btn-primary">Enviar</button>
-
-            </form>
-
+            </div>
 
 
 
