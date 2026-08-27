@@ -18,7 +18,7 @@ export function BaseForm() {
         formacion: '',
         otrasFormaciones: '',
         linkedin: '',
-        experiencia: '',
+        experienciaDocencia: false,
         cv: ''
     })
     // aca vamos a crear la funcion que se va a ejecutar cuando se envie el formulario, esta funcion va a recibir el evento 'e' como parametro, 
@@ -28,18 +28,25 @@ export function BaseForm() {
         console.log("Datos enviados:")
         alert("formulario enviado");
     }
-    // aca vamos a crear la funcion que se va a ejecutar cuando el usuario escriba en el formulario, esta funcion va a recibir el evento 'e' como parametro
-    // guarda los datos de e.target que recibio en handleSumbitForm y los guarda en las variables name y value, los seteo en la variable user con el :value para 
-    // asignarle el valor a la propiedad del objeto, uso el prevUser para no perder los datos que ya se ingresaron y ... para spread (spread significa 
-    // que va a tomar todos los valores de prevUser y los va a pasar a user)
+    
+    // Creo la funcion que se ejecuta cada vez que el usuario interactua con un campo (evento OnChange), 
+    // donde recibe el evento "e" como parametro, extraigo de e.target las propiedades name, value, type y checked
+    // uso valorFinal para ver si el campo es de tipo checkbox, si es asi toma el valor de checked, si no toma el valor de value
+    // luego verifico si el campo es de tipo dni o telefono, si es asi filtramos para que solo acepte numeros
+    // seteamos el estado de user usando prevUser para no perder los datos ya cargados y "..." para copiarlos
+    // manteniendo la propiedad [name] : valorFinal
+
     const handleUsernameInput = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
+
+        const valorFinal = type === "checkbox" ? checked : value;
+        
         if (name === "dni" || name === "telefono") {
             const soloNumeros = value.replace(/\D/g, "");
             setUser(prevUser => ({ ...prevUser, [name]: soloNumeros }));
             return;
         }
-        setUser(prevUser => ({ ...prevUser, [name]: value }))
+        setUser(prevUser => ({ ...prevUser, [name]: valorFinal }))
     }
     // Aca es donde se renderiza los componentes del formulario, le asignamos el state 'user' y la funcion 'handleUsernameInput' a cada componente que necesite 
     // recibir los datos

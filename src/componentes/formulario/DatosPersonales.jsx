@@ -83,7 +83,7 @@ export function DatosPersonales({ user, onChange }) {
                 </div>
 
                 {/* Correo electrónico */}
-                <div className="col-md-6 mb-3" style={{ maxWidth: "800px" }}x  >
+                <div className="col-md-6 mb-3" style={{ maxWidth: "800px" }} x  >
                     <div className="input-group">
                         <div className="input-group-prepend">
                             <span className="input-group-text">Correo electrónico</span>
@@ -108,21 +108,16 @@ export function DatosPersonales({ user, onChange }) {
                 </div>
 
                 {/* Residencia del usuario */}
-                <div style={{ marginBottom: "20px"}}>
+                <div style={{ marginBottom: "20px" }}>
                     <Residencia user={user} onChange={onChange} />
                 </div>
 
                 {/* Experiencia en docencia universitaria */}
-                <div style={{marginBottom: "20px"}}>
-                    <label className="d-block" htmlFor="inlineRadioExp1">¿Posee experiencia en docencia universitaria?</label>
-                    <div className="form-check form-check-inline">
-                        <input className="form-check-input" type="radio" name="experiencia" id="inlineRadioExp1" value="Si" checked={user?.experiencia === "Si"} onChange={onChange} />
-                        <label className="form-check-label" htmlFor="inlineRadioExp1">Si, poseo experiencia en docencia universitaria.</label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                        <input className="form-check-input" type="radio" name="experiencia" id="inlineRadioExp2" value="No" checked={user?.experiencia === "No"} onChange={onChange} />
-                        <label className="form-check-label" htmlFor="inlineRadioExp2">No, no poseo experiencia en docencia universitaria.</label>
-                    </div>
+                <div className="form-check" >
+                    <input className="form-check-input" type="checkbox" id="flexCheckDefault" name="experienciaDocencia" checked={Boolean(user?.experienciaDocencia)} onChange={onChange} />
+                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                        <p> Poseo experiencia como docente universitario </p>
+                    </label>
                 </div>
 
             </div>
