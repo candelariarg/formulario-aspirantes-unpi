@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* Simplemente ajusto el tamanio del logo */
+.logo {
+  width: 30%;
+  margin: 0 auto;
+}
+
+/* Fuerzo a todos los spans a tener el mismo ancho */
+.input-group-text {
+  width: 150px;           
+  justify-content: center;
+}
+
+
+/* Reduzco el tamaño de la tarjeta para que se adapte mejor a la pantalla */
+.card {
+  max-width: 750px;
+  width: 100%;
+  zoom: 0.75; 
+}
+
+
+

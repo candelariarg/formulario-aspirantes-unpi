@@ -11,7 +11,7 @@ export function DatosPersonales({ user, onChange }) {
 
     return (
         <>
-            <h5 className="text-center mb-4">Datos Personales</h5>
+            <h5 className="text-center mb-3">Datos Personales</h5>
 
             <div className="row">
                 {/* Nombre */}
@@ -83,7 +83,7 @@ export function DatosPersonales({ user, onChange }) {
                 </div>
 
                 {/* Correo electrónico */}
-                <div className="col-md-6 mb-3">
+                <div className="col-md-6 mb-3" style={{ maxWidth: "800px" }}x  >
                     <div className="input-group">
                         <div className="input-group-prepend">
                             <span className="input-group-text">Correo electrónico</span>
@@ -97,9 +97,32 @@ export function DatosPersonales({ user, onChange }) {
                         />
                     </div>
                 </div>
+                {/* Columna para LinkedIn */}
+                <div className="col-md-6 mb-3">
+                    <div className="input-group">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text" id="">Perfil de Linkedin <i className="bi bi-linkedin"></i></span>
+                        </div>
+                        <input type="text" className="form-control" name="linkedin" value={user?.linkedin || ""} onChange={onChange} />
+                    </div>
+                </div>
 
-                <div>
+                {/* Residencia del usuario */}
+                <div style={{ marginBottom: "20px"}}>
                     <Residencia user={user} onChange={onChange} />
+                </div>
+
+                {/* Experiencia en docencia universitaria */}
+                <div style={{marginBottom: "20px"}}>
+                    <label className="d-block" htmlFor="inlineRadioExp1">¿Posee experiencia en docencia universitaria?</label>
+                    <div className="form-check form-check-inline">
+                        <input className="form-check-input" type="radio" name="experiencia" id="inlineRadioExp1" value="Si" checked={user?.experiencia === "Si"} onChange={onChange} />
+                        <label className="form-check-label" htmlFor="inlineRadioExp1">Si, poseo experiencia en docencia universitaria.</label>
+                    </div>
+                    <div className="form-check form-check-inline">
+                        <input className="form-check-input" type="radio" name="experiencia" id="inlineRadioExp2" value="No" checked={user?.experiencia === "No"} onChange={onChange} />
+                        <label className="form-check-label" htmlFor="inlineRadioExp2">No, no poseo experiencia en docencia universitaria.</label>
+                    </div>
                 </div>
 
             </div>

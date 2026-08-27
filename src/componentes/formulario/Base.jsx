@@ -45,32 +45,34 @@ export function BaseForm() {
     // recibir los datos
     return (
         <>
-            <h3 className="mb-4 text-center">Formulario de postulacion Docente UNPI</h3>
-            <div className="card mx-auto" style={{ maxWidth: "950px", minHeight: "100vh" }}>
-                <div className="card-body">
-                    <img src="./logo-unpi.png" alt="logo-unpi" style={{ width: "50%", margin: "0 auto" }} />
-                    <form onSubmit={handleSumbitForm}>
-                        <div className="datos-personales mb-2">
-                            <DatosPersonales user={user} onChange={handleUsernameInput} />
-                        </div>
+            <h5 className="text-center mb-3">Formulario de postulacion Docente UNPI</h5>
+            <div className="container p-2">
+                <div className="card mx-auto">
+                    <div className="card-body">
+                        <img className="logo" src="./logo-unpi.png" alt="logo-unpi"/>
+                        <form onSubmit={handleSumbitForm}>
+                            <div className="datos-personales mb-2">
+                                <DatosPersonales user={user} onChange={handleUsernameInput} />
+                            </div>
 
-                        <div className="formacion-academica mb-2">
-                            <FormacionAcademica user={user} onChange={handleUsernameInput} />
-                        </div>
+                            <div className="formacion-academica mb-2">
+                                <FormacionAcademica user={user} onChange={handleUsernameInput} />
+                            </div>
 
-                        <div className="enviar-cv mb-2">
-                            <EnviarCV user={user} onChange={handleUsernameInput} />
-                        </div>
+                            <div className="enviar-cv mb-2">
+                                <EnviarCV user={user} onChange={handleUsernameInput} />
+                            </div>
 
-                        <button onSubmit={handleSumbitForm} type="submit" className="btn btn-primary">Enviar</button>
+                            <button onSubmit={handleSumbitForm} type="submit" className="btn btn-primary">Enviar</button>
 
-                    </form>
+                        </form>
+                    </div>
+
                 </div>
 
+
+
             </div>
-
-
-
         </>
     );
 }
