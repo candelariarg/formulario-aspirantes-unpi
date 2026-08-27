@@ -98,16 +98,8 @@ export function DatosPersonales({ user, onChange }) {
                     </div>
                 </div>
 
-                <div className="col-md-6 mb-3">
-                    <div className="input-group">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Direccion</span>
-                        </div>
-
-                        <Residencia user={user} onChange={onChange} />
-
-                    </div>
-
+                <div>
+                    <Residencia user={user} onChange={onChange} />
                 </div>
 
             </div>
