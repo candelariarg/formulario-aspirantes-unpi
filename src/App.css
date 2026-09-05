@@ -1,16 +1,22 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  /* La primera capa (gradiente) va sobre la segunda (imagen) */
+  background-image: 
+    linear-gradient(rgba(10, 35, 70, 0.55), rgba(10, 35, 70, 0.55)),
+    url("/public/1-nuevo-edificio.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
 .App {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  padding: 20px;
 }
 
 .App-header {
@@ -24,24 +30,11 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
 /* Simplemente ajusto el tamanio del logo */
 .logo {
   width: 30%;
   margin: 0 auto;
+  
 }
 
 /* Fuerzo a todos los spans a tener el mismo ancho */
@@ -55,7 +48,10 @@
 .card {
   max-width: 750px;
   width: 100%;
-  zoom: 0.80; 
+  zoom: auto; 
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15)
 }
 
 .form-check {

@@ -66,7 +66,7 @@ export function Residencia() {
   return (
     <Container className="mt-3">
       <Row className="g-3">
-        <Col md={4}>
+        <Col md={7}>
           <Form.Label>Residencia</Form.Label>
           <Form.Select
             value={residencia}
@@ -79,7 +79,7 @@ export function Residencia() {
         </Col>
 
         {residencia === "PBA" && (
-          <Col md={4}>
+          <Col md={7}>
             <Form.Label>Municipio</Form.Label>
             <Dropdown>
               <Dropdown.Toggle variant="outline-secondary" className="w-100 text-start">
@@ -115,7 +115,7 @@ export function Residencia() {
         )}
 
         {municipio && (
-          <Col md={4}>
+          <Col md={7}>
             <Form.Label>Localidad</Form.Label>
             <Dropdown>
               <Dropdown.Toggle variant="outline-secondary" className="w-100 text-start">
@@ -152,7 +152,7 @@ export function Residencia() {
 
         {mostrarDireccion && (
           <>
-            <Col md={4}>
+            <Col md={7}>
               <Form.Label>Calle</Form.Label>
               <Form.Control
                 type="text"
@@ -162,7 +162,7 @@ export function Residencia() {
               />
             </Col>
 
-            <Col md={4}>
+            <Col md={7}>
               <Form.Label>Altura</Form.Label>
               <Form.Control
                 type="number"

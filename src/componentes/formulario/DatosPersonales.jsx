@@ -16,10 +16,7 @@ export function DatosPersonales({ user, onChange }) {
             <div className="row">
                 {/* Nombre */}
                 <div className="col-md-6 mb-3">
-                    <div className="input-group">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Nombre</span>
-                        </div>
+                    <label className="form-label">Nombre</label>
                         <input
                             type="text"
                             className="form-control"
@@ -27,15 +24,11 @@ export function DatosPersonales({ user, onChange }) {
                             value={user?.nombre || ""}
                             onChange={onChange}
                         />
-                    </div>
                 </div>
 
                 {/* Apellido */}
                 <div className="col-md-6 mb-3">
-                    <div className="input-group">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Apellido</span>
-                        </div>
+                    <label className="form-label">Apellido</label>
                         <input
                             type="text"
                             className="form-control"
@@ -43,15 +36,11 @@ export function DatosPersonales({ user, onChange }) {
                             value={user?.apellido || ""}
                             onChange={onChange}
                         />
-                    </div>
                 </div>
 
                 {/* DNI */}
                 <div className="col-md-6 mb-3">
-                    <div className="input-group">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">DNI</span>
-                        </div>
+                    <label className="form-label">DNI</label>
                         <input
                             type="text"
                             inputMode="numeric"
@@ -61,15 +50,12 @@ export function DatosPersonales({ user, onChange }) {
                             value={user?.dni || ""}
                             onChange={onChange}
                         />
-                    </div>
+                    
                 </div>
 
                 {/* Teléfono */}
                 <div className="col-md-6 mb-3">
-                    <div className="input-group">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Teléfono</span>
-                        </div>
+                    <label className="form-label">Teléfono</label>
                         <input
                             type="text"
                             inputMode="numeric"
@@ -79,45 +65,40 @@ export function DatosPersonales({ user, onChange }) {
                             value={user?.telefono || ""}
                             onChange={onChange}
                         />
-                    </div>
                 </div>
 
                 {/* Correo electrónico */}
                 <div className="col-md-6 mb-3" style={{ maxWidth: "800px" }} x  >
-                    <div className="input-group">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Correo electrónico</span>
-                        </div>
-                        <input
+                        <label className="form-label">Correo electrónico</label>
+                            <input
                             type="email"
                             className="form-control"
                             name="correo"
                             value={user?.correo || ""}
                             onChange={onChange}
                         />
-                    </div>
                 </div>
                 {/* Columna para LinkedIn */}
                 <div className="col-md-6 mb-3">
-                    <div className="input-group">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text" id="">Perfil de Linkedin <i className="bi bi-linkedin"></i></span>
-                        </div>
+                    <label className="form-label">Perfil de Linkedin <i className="bi bi-linkedin"></i></label>
                         <input type="text" className="form-control" name="linkedin" value={user?.linkedin || ""} onChange={onChange} />
-                    </div>
+                    
                 </div>
 
-                {/* Residencia del usuario */}
-                <div style={{ marginBottom: "20px" }}>
-                    <Residencia user={user} onChange={onChange} />
-                </div>
+
 
                 {/* Experiencia en docencia universitaria */}
-                <div className="form-check" >
-                    <input className="form-check-input" type="checkbox" id="flexCheckDefault" name="experienciaDocencia" checked={Boolean(user?.experienciaDocencia)} onChange={onChange} />
-                    <label className="form-check-label" htmlFor="flexCheckDefault">
-                        <p> Poseo experiencia como docente universitario </p>
-                    </label>
+                <div className="form-check" style={{ alignItems: "center", justifyContent: "center" }} >
+                    {/* Residencia del usuario */}
+                    <div className="mb-3" style={{ marginBottom: "20px" }}>
+                        <Residencia user={user} onChange={onChange} />
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                        <input className="form-check-input" type="checkbox" id="flexCheckDefault" name="experienciaDocencia" checked={Boolean(user?.experienciaDocencia)} onChange={onChange} />
+                        <label className="form-check-label" htmlFor="flexCheckDefault">
+                            <p> Poseo experiencia como docente universitario </p>
+                        </label>
+                    </div>
                 </div>
 
             </div>

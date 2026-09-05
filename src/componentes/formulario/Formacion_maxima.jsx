@@ -8,7 +8,7 @@ export function FormacionAcademica({ user, onChange }) {
             <h5>Formación Académica</h5>
             <div>
                 <div className="mb-3 mx-auto" style={{ maxWidth: "800px" }}>
-                    <label className="form-label d-block">Nivel máximo de titulación (marcar solo uno)</label>
+                    <label className="form-label d-block">Nivel máximo de titulación</label>
                     <select
                         className="form-select"
                         name="formacion"
@@ -26,12 +26,10 @@ export function FormacionAcademica({ user, onChange }) {
 
                 <div className="mb-3 mx-auto" style={{ maxWidth: "800px" }}>
                     {/* Columna para Otras Formaciones */}
-                    <div className="input-group mb-3">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text" id="">Otras Formaciones <i className="bi bi-bookmark"></i></span>
-                        </div>
+                    
+                        <label className="form-label" id="">Otras Formaciones <i className="bi bi-bookmark"></i></label>
+                        
                         <input type="text" className="form-control" name="otrasFormaciones" value={user?.otrasFormaciones || ""} onChange={onChange} />
-                    </div>
                 </div>
 
 

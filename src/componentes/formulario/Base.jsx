@@ -52,10 +52,10 @@ export function BaseForm() {
     // recibir los datos
     return (
         <>
-            <h5 className="text-center mb-3">Formulario de postulacion Docente UNPI</h5>
             <div className="container p-2">
-                <div className="card mx-auto">
+                <div className="card mx-auto ">
                     <div className="card-body">
+                        <h5 className="text-center mb-3">Formulario de postulacion Docente UNPilar</h5>
                         <img className="logo" src="./logo-unpi.png" alt="logo-unpi"/>
                         <form onSubmit={handleSumbitForm}>
                             <div className="datos-personales mb-2">
@@ -70,7 +70,7 @@ export function BaseForm() {
                                 <EnviarCV user={user} onChange={handleUsernameInput} />
                             </div>
 
-                            <button onSubmit={handleSumbitForm} type="submit" className="btn btn-primary">Enviar</button>
+                            <button onSubmit={handleSumbitForm} type="submit" className="btn btn-primary" style={{width:"40%"}}>Enviar</button>
 
                         </form>
                     </div>
