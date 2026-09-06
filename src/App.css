@@ -48,7 +48,7 @@ body {
 .card {
   max-width: 750px;
   width: 100%;
-  zoom: auto; 
+  zoom: 80%; 
   backdrop-filter: blur(12px);
   background: rgba(255, 255, 255, 0.88);
   box-shadow: 0 20px 40px rgba(0,0,0,0.15)

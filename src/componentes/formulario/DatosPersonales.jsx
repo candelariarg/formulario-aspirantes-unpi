@@ -16,7 +16,7 @@ export function DatosPersonales({ user, onChange }) {
             <div className="row">
                 {/* Nombre */}
                 <div className="col-md-6 mb-3">
-                    <label className="form-label">Nombre</label>
+                    <label className="form-label">Nombre *</label>
                         <input
                             type="text"
                             className="form-control"
@@ -28,7 +28,7 @@ export function DatosPersonales({ user, onChange }) {
 
                 {/* Apellido */}
                 <div className="col-md-6 mb-3">
-                    <label className="form-label">Apellido</label>
+                    <label className="form-label">Apellido *</label>
                         <input
                             type="text"
                             className="form-control"
@@ -40,7 +40,7 @@ export function DatosPersonales({ user, onChange }) {
 
                 {/* DNI */}
                 <div className="col-md-6 mb-3">
-                    <label className="form-label">DNI</label>
+                    <label className="form-label">DNI *</label>
                         <input
                             type="text"
                             inputMode="numeric"
@@ -55,7 +55,7 @@ export function DatosPersonales({ user, onChange }) {
 
                 {/* Teléfono */}
                 <div className="col-md-6 mb-3">
-                    <label className="form-label">Teléfono</label>
+                    <label className="form-label">Teléfono *</label>
                         <input
                             type="text"
                             inputMode="numeric"
@@ -69,7 +69,7 @@ export function DatosPersonales({ user, onChange }) {
 
                 {/* Correo electrónico */}
                 <div className="col-md-6 mb-3" style={{ maxWidth: "800px" }} x  >
-                        <label className="form-label">Correo electrónico</label>
+                        <label className="form-label">Correo electrónico *</label>
                             <input
                             type="email"
                             className="form-control"
@@ -80,7 +80,7 @@ export function DatosPersonales({ user, onChange }) {
                 </div>
                 {/* Columna para LinkedIn */}
                 <div className="col-md-6 mb-3">
-                    <label className="form-label">Perfil de Linkedin <i className="bi bi-linkedin"></i></label>
+                    <label className="form-label">Perfil de LinkedIn <i className="bi bi-linkedin"></i></label>
                         <input type="text" className="form-control" name="linkedin" value={user?.linkedin || ""} onChange={onChange} />
                     
                 </div>

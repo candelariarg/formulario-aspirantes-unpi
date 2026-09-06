@@ -67,7 +67,7 @@ export function Residencia() {
     <Container className="mt-3">
       <Row className="g-3">
         <Col md={7}>
-          <Form.Label>Residencia</Form.Label>
+          <Form.Label>Residencia *</Form.Label>
           <Form.Select
             value={residencia}
             onChange={(e) => setResidencia(e.target.value)}

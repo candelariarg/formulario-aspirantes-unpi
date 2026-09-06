@@ -55,7 +55,7 @@ export function BaseForm() {
             <div className="container p-2">
                 <div className="card mx-auto ">
                     <div className="card-body">
-                        <h5 className="text-center mb-3">Formulario de postulacion Docente UNPilar</h5>
+                        <h5 className="text-center mb-3">Formulario de postulación Docente UNPilar</h5>
                         <img className="logo" src="./logo-unpi.png" alt="logo-unpi"/>
                         <form onSubmit={handleSumbitForm}>
                             <div className="datos-personales mb-2">

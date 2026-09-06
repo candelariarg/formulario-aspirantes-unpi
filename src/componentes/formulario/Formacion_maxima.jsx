@@ -8,7 +8,7 @@ export function FormacionAcademica({ user, onChange }) {
             <h5>Formación Académica</h5>
             <div>
                 <div className="mb-3 mx-auto" style={{ maxWidth: "800px" }}>
-                    <label className="form-label d-block">Nivel máximo de titulación</label>
+                    <label className="form-label d-block">Nivel máximo de titulación *</label>
                     <select
                         className="form-select"
                         name="formacion"
