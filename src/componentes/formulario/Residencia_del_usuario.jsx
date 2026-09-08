@@ -149,7 +149,9 @@ export function Residencia() {
             </Dropdown>
           </Col>
         )}
-
+        {/* Calle y Altura 
+          
+        
         {mostrarDireccion && (
           <>
             <Col md={7}>
@@ -172,7 +174,7 @@ export function Residencia() {
               />
             </Col>
           </>
-        )}
+        )}*/}
       </Row>
     </Container>
   );
