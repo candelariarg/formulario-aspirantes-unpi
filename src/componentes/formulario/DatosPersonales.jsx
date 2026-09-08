@@ -96,7 +96,7 @@ export function DatosPersonales({ user, onChange }) {
                     <div style={{ display: "flex", justifyContent: "center" }}>
                         <input className="form-check-input" type="checkbox" id="flexCheckDefault" name="experienciaDocencia" checked={Boolean(user?.experienciaDocencia)} onChange={onChange} />
                         <label className="form-check-label" htmlFor="flexCheckDefault">
-                            <p> Poseo experiencia como docente universitario </p>
+                            <p> Poseo experiencia como Docente universitario </p>
                         </label>
                     </div>
                 </div>
