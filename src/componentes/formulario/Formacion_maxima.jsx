@@ -13,6 +13,13 @@ export function FormacionAcademica({ user, onChange }) {
   return (
     <>
       <h5>Formación Académica</h5>
+      <Select
+        closeMenuOnSelect={false}
+        components={animatedComponents}
+        defaultValue={[colourOptions[4], colourOptions[5]]}
+        isMulti
+        options={colourOptions}
+      />
       <div>
         <div className="mb-3 mx-auto" style={{ maxWidth: "800px" }}>
           <label className="form-label d-block">
@@ -32,13 +39,7 @@ export function FormacionAcademica({ user, onChange }) {
             <option value="Doctorado">Doctorado</option>
           </select>
         </div>
-        <Select
-          closeMenuOnSelect={false}
-          components={animatedComponents}
-          defaultValue={[colourOptions[4], colourOptions[5]]}
-          isMulti
-          options={colourOptions}
-        />
+
         <div className="mb-3 mx-auto" style={{ maxWidth: "800px" }}>
           {/* Columna para Otras Formaciones */}
 
