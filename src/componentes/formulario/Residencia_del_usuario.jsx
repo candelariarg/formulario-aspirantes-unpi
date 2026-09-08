@@ -4,7 +4,7 @@ import { Dropdown, Form, Container, Row, Col } from "react-bootstrap";
 export function Residencia() {
   const [residencia, setResidencia] = useState("");
 
-//Esto es para manejar la selección de municipio y localidad, así como la búsqueda dentro de ellos.
+  //Esto es para manejar la selección de municipio y localidad, así como la búsqueda dentro de ellos.
   const [municipio, setMunicipio] = useState(null); //Para almacenar el municipio seleccionado.
   const [municipios, setMunicipios] = useState([]); //Para almacenar la lista de municipios de la API.
   const [busquedaMunicipio, setBusquedaMunicipio] = useState(""); //Para almacenar el texto de búsqueda del municipio y mostrarlo en el dropdown.
@@ -16,7 +16,7 @@ export function Residencia() {
   const [calle, setCalle] = useState(""); //Para almacenar la calle ingresada.
   const [altura, setAltura] = useState(""); //Para almacenar la altura ingresada.
 
-//Carga la lista de municipios cuando eligen PBA.
+  //Carga la lista de municipios cuando eligen PBA.
   useEffect(() => {
     if (residencia !== "PBA") {
       setMunicipios([]);
@@ -27,7 +27,7 @@ export function Residencia() {
     setMunicipio(null); //Reinicia el municipio seleccionado al cambiar la residencia.
 
     fetch(
-      "https://apis.datos.gob.ar/georef/api/municipios?provincia=buenos%20aires&max=200&campos=id,nombre&orden=nombre"
+      "https://apis.datos.gob.ar/georef/api/municipios?provincia=buenos%20aires&max=200&campos=id,nombre&orden=nombre",
     )
       .then((res) => res.json())
       .then((data) => setMunicipios(data.municipios || []));
@@ -43,113 +43,113 @@ export function Residencia() {
     setLocalidad(null); //Reinicia la localidad seleccionada al cambiar el municipio.
 
     fetch(
-      `https://apis.datos.gob.ar/georef/api/localidades?municipio=${municipio.id}&max=200&campos=id,nombre&orden=nombre`
+      `https://apis.datos.gob.ar/georef/api/localidades?municipio=${municipio.id}&max=200&campos=id,nombre&orden=nombre`,
     )
       .then((res) => res.json())
       .then((data) => setLocalidades(data.localidades || []));
   }, [municipio]);
 
-//Filtra los municipios y localidades según la búsqueda de la persona.
+  //Filtra los municipios y localidades según la búsqueda de la persona.
   const municipiosFiltrados = municipios.filter((m) =>
-    m.nombre.toLowerCase().includes(busquedaMunicipio.toLowerCase()) 
-  ); 
-
-  const localidadesFiltradas = localidades.filter((l) =>
-    l.nombre.toLowerCase().includes(busquedaLocalidad.toLowerCase())
+    m.nombre.toLowerCase().includes(busquedaMunicipio.toLowerCase()),
   );
 
-//Muestra el campo Calle y Altura:
-//En CABA, recien cuando se elige esa opción.
-//En PBA, recién cuando ya hay localidad elegida.
-  const mostrarDireccion = residencia === "CABA" || (residencia === "PBA" && localidad);
+  const localidadesFiltradas = localidades.filter((l) =>
+    l.nombre.toLowerCase().includes(busquedaLocalidad.toLowerCase()),
+  );
+
+  //Muestra el campo Calle y Altura:
+  //En CABA, recien cuando se elige esa opción.
+  //En PBA, recién cuando ya hay localidad elegida.
+  const mostrarDireccion =
+    residencia === "CABA" || (residencia === "PBA" && localidad);
 
   return (
-    <Container className="mt-3">
-      <Row className="g-3">
-        <Col md={7}>
-          <Form.Label>Residencia *</Form.Label>
-          <Form.Select
-            value={residencia}
-            onChange={(e) => setResidencia(e.target.value)}
-          >
-            <option value="">Seleccionar...</option>
-            <option value="CABA">C.A.B.A</option>
-            <option value="PBA">Provincia de Buenos Aires</option>
-          </Form.Select>
+    <Row className="g-3">
+      <Col md={8}>
+        <Form.Label>Residencia *</Form.Label>
+        <Form.Select
+          value={residencia}
+          onChange={(e) => setResidencia(e.target.value)}
+        >
+          <option value="">Seleccionar...</option>
+          <option value="CABA">C.A.B.A</option>
+          <option value="PBA">Provincia de Buenos Aires</option>
+        </Form.Select>
+      </Col>
+
+      {residencia === "PBA" && (
+        <Col md={8}>
+          <Form.Label>Municipio</Form.Label>
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="outline-secondary"
+              className="w-100 text-start"
+            >
+              {municipio ? municipio.nombre : "Seleccionar municipio..."}
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu
+              className="w-100 p-2"
+              style={{ maxHeight: "250px", overflowY: "auto" }}
+            >
+              <Form.Control
+                type="text"
+                placeholder="Buscar..."
+                className="mb-2"
+                value={busquedaMunicipio}
+                onChange={(e) => setBusquedaMunicipio(e.target.value)}
+                onClick={(e) => e.stopPropagation()} //Evita que el click cierre el menú.
+              />
+              {municipiosFiltrados.length === 0 && (
+                <Dropdown.ItemText>Sin resultados</Dropdown.ItemText>
+              )}
+              {municipiosFiltrados.map((m) => (
+                <Dropdown.Item key={m.id} onClick={() => setMunicipio(m)}>
+                  {m.nombre}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
         </Col>
+      )}
 
-        {residencia === "PBA" && (
-          <Col md={7}>
-            <Form.Label>Municipio</Form.Label>
-            <Dropdown>
-              <Dropdown.Toggle variant="outline-secondary" className="w-100 text-start">
-                {municipio ? municipio.nombre : "Seleccionar municipio..."}
-              </Dropdown.Toggle>
+      {municipio && (
+        <Col md={8}>
+          <Form.Label>Localidad</Form.Label>
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="outline-secondary"
+              className="w-100 text-start"
+            >
+              {localidad ? localidad.nombre : "Seleccionar localidad..."}
+            </Dropdown.Toggle>
 
-              <Dropdown.Menu
-                className="w-100 p-2"
-                style={{ maxHeight: "250px", overflowY: "auto" }}
-              >
-                <Form.Control
-                  type="text"
-                  placeholder="Buscar..."
-                  className="mb-2"
-                  value={busquedaMunicipio}
-                  onChange={(e) => setBusquedaMunicipio(e.target.value)}
-                  onClick={(e) => e.stopPropagation()} //Evita que el click cierre el menú.
-                />
-                {municipiosFiltrados.length === 0 && (
-                  <Dropdown.ItemText>Sin resultados</Dropdown.ItemText>
-                )}
-                {municipiosFiltrados.map((m) => (
-                  <Dropdown.Item
-                    key={m.id}
-                    onClick={() => setMunicipio(m)}
-                  >
-                    {m.nombre}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-        )}
-
-        {municipio && (
-          <Col md={7}>
-            <Form.Label>Localidad</Form.Label>
-            <Dropdown>
-              <Dropdown.Toggle variant="outline-secondary" className="w-100 text-start">
-                {localidad ? localidad.nombre : "Seleccionar localidad..."}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu
-                className="w-100 p-2"
-                style={{ maxHeight: "250px", overflowY: "auto" }}
-              >
-                <Form.Control
-                  type="text"
-                  placeholder="Buscar..."
-                  className="mb-2"
-                  value={busquedaLocalidad}
-                  onChange={(e) => setBusquedaLocalidad(e.target.value)}
-                  onClick={(e) => e.stopPropagation()}
-                />
-                {localidadesFiltradas.length === 0 && (
-                  <Dropdown.ItemText>Sin resultados</Dropdown.ItemText>
-                )}
-                {localidadesFiltradas.map((l) => (
-                  <Dropdown.Item
-                    key={l.id}
-                    onClick={() => setLocalidad(l)}
-                  >
-                    {l.nombre}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-        )}
-        {/* Calle y Altura 
+            <Dropdown.Menu
+              className="w-100 p-2"
+              style={{ maxHeight: "250px", overflowY: "auto" }}
+            >
+              <Form.Control
+                type="text"
+                placeholder="Buscar..."
+                className="mb-2"
+                value={busquedaLocalidad}
+                onChange={(e) => setBusquedaLocalidad(e.target.value)}
+                onClick={(e) => e.stopPropagation()}
+              />
+              {localidadesFiltradas.length === 0 && (
+                <Dropdown.ItemText>Sin resultados</Dropdown.ItemText>
+              )}
+              {localidadesFiltradas.map((l) => (
+                <Dropdown.Item key={l.id} onClick={() => setLocalidad(l)}>
+                  {l.nombre}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        </Col>
+      )}
+      {/* Calle y Altura 
           
         
         {mostrarDireccion && (
@@ -175,8 +175,7 @@ export function Residencia() {
             </Col>
           </>
         )}*/}
-      </Row>
-    </Container>
+    </Row>
   );
 }
 

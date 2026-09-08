@@ -1,107 +1,125 @@
 import { Residencia } from "./Residencia_del_usuario";
 export function DatosPersonales({ user, onChange }) {
-    // aca voy a crear la estructura que va a tener el formulario, por ejemplo el nombre, apellido, dni, telefono, etc
-    // uso el  el componente 'div' para crear los campos del formulario, el componente 'input-group' para agrupar los campos, 
-    // el componente 'input-group-prepend' para agregar un icono antes del campo, el componente 'input-group-text' para agregar un texto antes del campo
-    // el componente 'form-control' para que el campo tenga el estilo de bootstrap, el componente 'form-group' para agrupar los campos
-    // le asigno los atributos de name y value, en name para que sirva como identificador para guardar los datos en el objeto user y en value para que muestre el valor del input, 
-    // tambien en value utilizo el ? que es un operador de encadenamiento que sirve para que si el valor es null, no muestre nada, 
-    // tambien utilizo el 'onChange' para que se ejecute la funcion 'handleUsernameInput' cuando el usuario escriba en el input
+  // aca voy a crear la estructura que va a tener el formulario, por ejemplo el nombre, apellido, dni, telefono, etc
+  // uso el  el componente 'div' para crear los campos del formulario, el componente 'input-group' para agrupar los campos,
+  // el componente 'input-group-prepend' para agregar un icono antes del campo, el componente 'input-group-text' para agregar un texto antes del campo
+  // el componente 'form-control' para que el campo tenga el estilo de bootstrap, el componente 'form-group' para agrupar los campos
+  // le asigno los atributos de name y value, en name para que sirva como identificador para guardar los datos en el objeto user y en value para que muestre el valor del input,
+  // tambien en value utilizo el ? que es un operador de encadenamiento que sirve para que si el valor es null, no muestre nada,
+  // tambien utilizo el 'onChange' para que se ejecute la funcion 'handleUsernameInput' cuando el usuario escriba en el input
 
+  return (
+    <>
+      <h5 className="text-center mb-3">Datos Personales</h5>
 
-    return (
-        <>
-            <h5 className="text-center mb-3">Datos Personales</h5>
+      <div className="row">
+        {/* Nombre */}
+        <div className="col-md-6 mb-3">
+          <label className="form-label">Nombre *</label>
+          <input
+            type="text"
+            className="form-control"
+            name="nombre"
+            value={user?.nombre || ""}
+            onChange={onChange}
+          />
+        </div>
 
-            <div className="row">
-                {/* Nombre */}
-                <div className="col-md-6 mb-3">
-                    <label className="form-label">Nombre *</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            name="nombre"
-                            value={user?.nombre || ""}
-                            onChange={onChange}
-                        />
-                </div>
+        {/* Apellido */}
+        <div className="col-md-6 mb-3">
+          <label className="form-label">Apellido *</label>
+          <input
+            type="text"
+            className="form-control"
+            name="apellido"
+            value={user?.apellido || ""}
+            onChange={onChange}
+          />
+        </div>
 
-                {/* Apellido */}
-                <div className="col-md-6 mb-3">
-                    <label className="form-label">Apellido *</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            name="apellido"
-                            value={user?.apellido || ""}
-                            onChange={onChange}
-                        />
-                </div>
+        {/* DNI */}
+        <div className="col-md-6 mb-3">
+          <label className="form-label">DNI *</label>
+          <input
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            className="form-control"
+            name="dni"
+            value={user?.dni || ""}
+            onChange={onChange}
+          />
+        </div>
 
-                {/* DNI */}
-                <div className="col-md-6 mb-3">
-                    <label className="form-label">DNI *</label>
-                        <input
-                            type="text"
-                            inputMode="numeric"
-                            pattern="[0-9]*"
-                            className="form-control"
-                            name="dni"
-                            value={user?.dni || ""}
-                            onChange={onChange}
-                        />
-                    
-                </div>
+        {/* Teléfono */}
+        <div className="col-md-6 mb-3">
+          <label className="form-label">Teléfono *</label>
+          <input
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            className="form-control"
+            name="telefono"
+            value={user?.telefono || ""}
+            onChange={onChange}
+          />
+        </div>
 
-                {/* Teléfono */}
-                <div className="col-md-6 mb-3">
-                    <label className="form-label">Teléfono *</label>
-                        <input
-                            type="text"
-                            inputMode="numeric"
-                            pattern="[0-9]*"
-                            className="form-control"
-                            name="telefono"
-                            value={user?.telefono || ""}
-                            onChange={onChange}
-                        />
-                </div>
+        {/* Correo electrónico */}
+        <div className="col-md-6 mb-3" style={{ maxWidth: "800px" }} x>
+          <label className="form-label">Correo electrónico *</label>
+          <input
+            type="email"
+            className="form-control"
+            name="correo"
+            value={user?.correo || ""}
+            onChange={onChange}
+          />
+        </div>
+        {/* Columna para LinkedIn */}
+        <div className="col-md-6 mb-3">
+          <label className="form-label">
+            Perfil de LinkedIn <i className="bi bi-linkedin"></i>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            name="linkedin"
+            value={user?.linkedin || ""}
+            onChange={onChange}
+          />
+        </div>
 
-                {/* Correo electrónico */}
-                <div className="col-md-6 mb-3" style={{ maxWidth: "800px" }} x  >
-                        <label className="form-label">Correo electrónico *</label>
-                            <input
-                            type="email"
-                            className="form-control"
-                            name="correo"
-                            value={user?.correo || ""}
-                            onChange={onChange}
-                        />
-                </div>
-                {/* Columna para LinkedIn */}
-                <div className="col-md-6 mb-3">
-                    <label className="form-label">Perfil de LinkedIn <i className="bi bi-linkedin"></i></label>
-                        <input type="text" className="form-control" name="linkedin" value={user?.linkedin || ""} onChange={onChange} />
-                    
-                </div>
-
-
-
-                {/* Experiencia en docencia universitaria */}
-                <div className="form-check" style={{ alignItems: "center", justifyContent: "center" }} >
-                    {/* Residencia del usuario */}
-                    <div className="mb-3" style={{ marginBottom: "20px" }}>
-                        <Residencia user={user} onChange={onChange} />
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                        <input className="form-check-input" type="checkbox" id="flexCheckDefault" name="experienciaDocencia" checked={Boolean(user?.experienciaDocencia)} onChange={onChange} />
-                        <label className="form-check-label" htmlFor="flexCheckDefault">
-                            <p> Poseo experiencia como Docente universitario </p>
-                        </label>
-                    </div>
-                </div>
-
+        {/* Residencia + Checkbox en la misma fila en pantallas medianas, apilados en mobile */}
+        <div className="col-12">
+          <div className="row align-items-end">
+            {/* Residencia del usuario */}
+            <div className="col-12 col-md-6 mb-3">
+              <Residencia user={user} onChange={onChange} />
             </div>
-        </>
-    )
+
+            {/* Experiencia en docencia universitaria */}
+            <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content-md-start">
+              <div className="form-check-responsive d-flex align-items-center gap-2">
+                <input
+                  className="form-check-input mt-0 flex-shrink-0"
+                  type="checkbox"
+                  id="flexCheckDefault"
+                  name="experienciaDocencia"
+                  checked={Boolean(user?.experienciaDocencia)}
+                  onChange={onChange}
+                />
+                <label
+                  className="form-check-label mb-0"
+                  htmlFor="flexCheckDefault"
+                >
+                  Poseo experiencia como Docente universitario
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
