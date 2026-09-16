@@ -1,5 +1,5 @@
 import { Residencia } from "./Residencia_del_usuario";
-export function DatosPersonales({ user, onChange }) {
+export function DatosPersonales({ user, onChange, required }) {
   // aca voy a crear la estructura que va a tener el formulario, por ejemplo el nombre, apellido, dni, telefono, etc
   // uso el  el componente 'div' para crear los campos del formulario, el componente 'input-group' para agrupar los campos,
   // el componente 'input-group-prepend' para agregar un icono antes del campo, el componente 'input-group-text' para agregar un texto antes del campo

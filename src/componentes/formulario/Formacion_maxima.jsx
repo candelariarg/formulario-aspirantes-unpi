@@ -19,10 +19,18 @@ export function FormacionAcademica({ user, onChange }) {
           <Select
             closeMenuOnSelect={false}
             components={animatedComponents}
-            defaultValue={[especialidades[4], especialidades[5]]}
+            value={user?.especialidades || []}
             isMulti
             options={especialidades}
             placeholder={'Seleccione...'}
+            onChange={(selectedOptions) =>
+              onChange({
+                target: {
+                  name: "especialidades",
+                  value: selectedOptions || [],
+                },
+              })
+            }
           />
         </div>
       </div>

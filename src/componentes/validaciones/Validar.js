@@ -27,19 +27,65 @@ export function campoCompletado(nombreDelCampo, valor) {
       return typeof valor === "string" && regexCorreo.test(valor.trim());
 
     case "nivelTitulacion":
+    case "formacion":
       //Esta bien si el usuario ya eligio alguna opcion (no quedo vacio).
       return valor !== "" && valor !== null && valor !== undefined;
 
+    case "residencia":
+      return typeof valor === "string" && valor.trim().length > 0;
+
+    case "especialidades":
+      return Array.isArray(valor) && valor.length > 0;
+
     case "experienciaDocencia":
-      return valor !== "" && valor !== null && valor !== undefined;
+      return typeof valor === "boolean";
 
     case "cv":
-      //Esta bien si hay un archivo cargado (osea, no es null).
-      return valor !== null && valor !== undefined;
+      //Esta bien si hay un archivo cargado (osea, no es null ni vacio).
+      return valor !== null && valor !== undefined && valor !== "";
 
     default:
       return true;
   }
+}
+
+export function validarFormulario(user) {
+  const errores = {};
+
+  if (!campoCompletado("nombre", user.nombre)) {
+    errores.nombre = "El nombre es obligatorio.";
+  }
+  if (!campoCompletado("apellido", user.apellido)) {
+    errores.apellido = "El apellido es obligatorio.";
+  }
+  if (!campoCompletado("dni", user.dni)) {
+    errores.dni = "El DNI debe contener 7 u 8 dígitos numéricos.";
+  }
+  if (!campoCompletado("telefono", user.telefono)) {
+    errores.telefono = "El teléfono debe contener entre 10 y 15 dígitos numéricos.";
+  }
+  if (!campoCompletado("correo", user.correo)) {
+    errores.correo = "El correo electrónico no tiene un formato válido.";
+  }
+  if (!campoCompletado("residencia", user.residencia)) {
+    errores.residencia = "Debe seleccionar su lugar de residencia.";
+  } else if (user.residencia === "PBA" && (!user.municipio || !user.localidad)) {
+    errores.residencia = "Para Provincia de Buenos Aires debe seleccionar municipio y localidad.";
+  }
+  if (!campoCompletado("especialidades", user.especialidades)) {
+    errores.especialidades = "Debe seleccionar al menos una especialidad.";
+  }
+  if (!campoCompletado("formacion", user.formacion)) {
+    errores.formacion = "Debe seleccionar su nivel máximo de titulación.";
+  }
+  if (!campoCompletado("cv", user.cv)) {
+    errores.cv = "Debe adjuntar su Curriculum Vitae en formato PDF.";
+  }
+
+  return {
+    valido: Object.keys(errores).length === 0,
+    errores,
+  };
 }
 
 

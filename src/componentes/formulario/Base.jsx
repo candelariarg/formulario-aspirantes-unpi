@@ -1,13 +1,12 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { DatosPersonales } from "./DatosPersonales";
 import { FormacionAcademica } from "./Formacion_maxima";
 import { EnviarCV } from "./Enviar_cv";
-
+import { validarFormulario } from "../validaciones/Validar";
 
 export function BaseForm() {
     // aca vamos a crear todas las variables que vamos a usar en el formulario, sirven para almacenar los datos que el usuario va ingresando
-    // por ejemplo el nombre, apellido, dni, telefono,etc
+    // por ejemplo el nombre, apellido, dni, telefono, etc
     const [user, setUser] = useState({
         nombre: '',
         apellido: '',
@@ -15,39 +14,52 @@ export function BaseForm() {
         telefono: '',
         correo: '',
         residencia: '',
+        municipio: '',
+        localidad: '',
+        calle: '',
+        altura: '',
+        especialidades: [],
         formacion: '',
         otrasFormaciones: '',
         linkedin: '',
         experienciaDocencia: false,
-        cv: ''
-    })
+        cv: null
+    });
+
     // aca vamos a crear la funcion que se va a ejecutar cuando se envie el formulario, esta funcion va a recibir el evento 'e' como parametro, 
-    // evita que la pagina se recargue al enviar el formulario
+    // evita que la pagina se recargue al enviar el formulario y valida los datos con Validar.js
     const handleSumbitForm = e => {
         e.preventDefault();
-        console.log("Datos enviados:")
-        alert("formulario enviado");
-    }
+        const { valido, errores } = validarFormulario(user);
+        if (!valido) {
+            alert("Por favor revise los siguientes campos obligatorios:\n\n• " + Object.values(errores).join("\n• "));
+            return;
+        }
+        console.log("Datos enviados:", user);
+        alert("¡Formulario enviado con éxito!");
+    };
     
     // Creo la funcion que se ejecuta cada vez que el usuario interactua con un campo (evento OnChange), 
-    // donde recibe el evento "e" como parametro, extraigo de e.target las propiedades name, value, type y checked
-    // uso valorFinal para ver si el campo es de tipo checkbox, si es asi toma el valor de checked, si no toma el valor de value
-    // luego verifico si el campo es de tipo dni o telefono, si es asi filtramos para que solo acepte numeros
-    // seteamos el estado de user usando prevUser para no perder los datos ya cargados y "..." para copiarlos
-    // manteniendo la propiedad [name] : valorFinal
-
+    // donde recibe el evento "e" como parametro, extraigo de e.target las propiedades name, value, type, checked y files
+    // soporta checkboxes, archivos (files), filtrado numérico para DNI y teléfono, y componentes personalizados
     const handleUsernameInput = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value, type, checked, files } = e.target;
 
-        const valorFinal = type === "checkbox" ? checked : value;
+        let valorFinal = value;
+        if (type === "checkbox") {
+            valorFinal = checked;
+        } else if (type === "file") {
+            valorFinal = files && files.length > 0 ? files[0] : null;
+        }
         
         if (name === "dni" || name === "telefono") {
-            const soloNumeros = value.replace(/\D/g, "");
+            const soloNumeros = (value || "").replace(/\D/g, "");
             setUser(prevUser => ({ ...prevUser, [name]: soloNumeros }));
             return;
         }
-        setUser(prevUser => ({ ...prevUser, [name]: valorFinal }))
-    }
+        setUser(prevUser => ({ ...prevUser, [name]: valorFinal }));
+    };
+
     // Aca es donde se renderiza los componentes del formulario, le asignamos el state 'user' y la funcion 'handleUsernameInput' a cada componente que necesite 
     // recibir los datos
     return (
@@ -70,15 +82,10 @@ export function BaseForm() {
                                 <EnviarCV user={user} onChange={handleUsernameInput} />
                             </div>
 
-                            <button onSubmit={handleSumbitForm} type="submit" className="btn btn-primary" style={{width:"40%"}}>Enviar</button>
-
+                            <button type="submit" className="btn btn-primary" style={{width:"40%"}}>Enviar</button>
                         </form>
                     </div>
-
                 </div>
-
-
-
             </div>
         </>
     );
