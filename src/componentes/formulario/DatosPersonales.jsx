@@ -22,6 +22,7 @@ export function DatosPersonales({ user, onChange }) {
             name="nombre"
             value={user?.nombre || ""}
             onChange={onChange}
+            required
           />
         </div>
 
@@ -34,6 +35,7 @@ export function DatosPersonales({ user, onChange }) {
             name="apellido"
             value={user?.apellido || ""}
             onChange={onChange}
+            required
           />
         </div>
 
@@ -48,6 +50,7 @@ export function DatosPersonales({ user, onChange }) {
             name="dni"
             value={user?.dni || ""}
             onChange={onChange}
+            required
           />
         </div>
 
@@ -62,6 +65,7 @@ export function DatosPersonales({ user, onChange }) {
             name="telefono"
             value={user?.telefono || ""}
             onChange={onChange}
+            required
           />
         </div>
 
@@ -74,6 +78,7 @@ export function DatosPersonales({ user, onChange }) {
             name="correo"
             value={user?.correo || ""}
             onChange={onChange}
+            required
           />
         </div>
         {/* Columna para LinkedIn */}
@@ -95,7 +100,7 @@ export function DatosPersonales({ user, onChange }) {
           <div className="row align-items-end">
             {/* Residencia del usuario */}
             <div className="col-12 col-md-6 mb-3">
-              <Residencia user={user} onChange={onChange} />
+              <Residencia user={user} onChange={onChange} required />
             </div>
 
             {/* Experiencia en docencia universitaria */}

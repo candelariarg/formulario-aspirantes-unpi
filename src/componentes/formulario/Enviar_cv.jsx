@@ -6,7 +6,7 @@ export function EnviarCV({ user, onChange }) {
             <label htmlFor="cvInput" className="form-label">
                 Adjuntar CV (Sólo formato PDF) *
             </label>
-            <input type="file" className="form-control" id="cvInput" name="cv" accept=".pdf,application/pdf" onChange={onChange} />
+            <input type="file" className="form-control" id="cvInput" name="cv" accept=".pdf,application/pdf" onChange={onChange} required />
         </div>
     );
 }

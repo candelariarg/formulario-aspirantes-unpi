@@ -36,6 +36,7 @@ export function FormacionAcademica({ user, onChange }) {
           name="formacion"
           value={user?.formacion || ""}
           onChange={onChange}
+          required
         >
           <option value="">Seleccionar...</option>
           <option value="Pregrado">Pregrado</option>
