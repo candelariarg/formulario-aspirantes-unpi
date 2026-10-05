@@ -3,9 +3,25 @@ import React, { useState } from "react";
 export function PanelPrincipal() {
   const [modalDetalles, setModalDetalles] = useState(false);
   const [modalEntrevista, setModalEntrevista] = useState(false);
+  const [buscadorAbierto, setBuscadorAbierto] = useState(false);
+  const [busqueda, setBusqueda] = useState("");
 
   const colorPrimario = "#14589f";
   const colorAcento = "#0d6efd";
+
+  const aspirantes = [
+    { id: 1, fecha: "25/09/2026", nombre: "Paez, Nyx Margot", especialidad: "Tecnologia e Informatica", nivel: "Maestría", estado: "Pendiente" },
+    { id: 2, fecha: "26/09/2026", nombre: "Gómez, Lucía Beatriz", especialidad: "Arte y Creatividad", nivel: "Grado", estado: "Revisado" },
+    { id: 3, fecha: "27/09/2026", nombre: "Pérez, Martín", especialidad: "Ciencias de la salud", nivel: "Doctorado", estado: "Pendiente" },
+  ];
+
+  const normalizar = (texto) =>
+    texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+  const aspirantesFiltrados = aspirantes.filter((a) => {
+    const palabras = normalizar(busqueda).split(" ").filter(Boolean);
+    return palabras.every((p) => normalizar(a.nombre).includes(p));
+  });
 
   return (
     <div 
@@ -95,7 +111,62 @@ export function PanelPrincipal() {
                 <thead>
                   <tr>
                     <th className="py-3 px-4 fw-medium text-white" style={{ backgroundColor: colorPrimario }}>Fecha</th>
-                    <th className="py-3 px-4 fw-medium text-white" style={{ backgroundColor: colorPrimario }}>Apellido y Nombre</th>
+                    <th className="py-3 px-4 fw-medium text-white" style={{ backgroundColor: colorPrimario }}>
+                      {!buscadorAbierto ? (
+                        <div className="d-flex align-items-center gap-3">
+                          <span>Apellido y Nombre</span>
+                          <span
+                            role="button"
+                            className="d-flex align-items-center gap-1"
+                            style={{ cursor: "pointer", opacity: 0.85, fontSize: "0.9rem" }}
+                            onClick={() => setBuscadorAbierto(true)}
+                            title="Buscar por apellido o nombre"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                            Buscar...
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="input-group input-group-sm" style={{ maxWidth: "280px" }}>
+                          <span className="input-group-text bg-white border-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill={colorPrimario} viewBox="0 0 16 16">
+                              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                          </span>
+                          <input
+                            type="text"
+                            className="form-control border-0 shadow-none"
+                            placeholder="Apellido o nombre..."
+                            value={busqueda}
+                            autoFocus
+                            onChange={(e) => setBusqueda(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Escape") {
+                                setBusqueda("");
+                                setBuscadorAbierto(false);
+                              }
+                            }}
+                            onBlur={() => {
+                              if (!busqueda) setBuscadorAbierto(false);
+                            }}
+                          />
+                          <button
+                            className="btn btn-light border-0"
+                            type="button"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => {
+                              setBusqueda("");
+                              setBuscadorAbierto(false);
+                            }}
+                            title="Cerrar búsqueda"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      )}
+                    </th>
                     <th className="py-3 px-4 fw-medium text-white" style={{ backgroundColor: colorPrimario }}>Especialidad</th>
                     <th className="py-3 px-4 fw-medium text-white" style={{ backgroundColor: colorPrimario }}>Nivel Académico</th>
                     <th className="py-3 px-4 fw-medium text-white" style={{ backgroundColor: colorPrimario }}>Estado</th>
@@ -103,50 +174,64 @@ export function PanelPrincipal() {
                   </tr>
                 </thead>
                 <tbody className="border-top-0">
-                  <tr>
-                    <td className="px-4 py-3 text-secondary">25/09/2026</td>
-                    <td className="px-4 py-3 fw-bold">Paez, Nyx Margot</td>
-                    <td className="px-4 py-3 text-secondary">Tecnologia e Informatica</td>
-                    <td className="px-4 py-3 text-secondary">Maestría</td>
-                    <td className="px-4 py-3">
-                      <span className="badge bg-warning text-dark border px-3 py-2 rounded-pill shadow-sm">Pendiente</span>
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <div className="d-flex justify-content-center gap-3">
-                        
-                        {/* Icono Ojo (Ver Detalles) */}
-                        <div style={{ cursor: "pointer" }} title="Ver Detalles del Perfil" onClick={() => setModalDetalles(true)}>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#0d6efd" viewBox="0 0 16 16">
-                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-                          </svg>
-                        </div>
+                  {aspirantesFiltrados.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="text-center text-secondary py-4">
+                        No se encontraron aspirantes para "{busqueda}"
+                      </td>
+                    </tr>
+                  ) : (
+                    aspirantesFiltrados.map((a) => (
+                      <tr key={a.id}>
+                        <td className="px-4 py-3 text-secondary">{a.fecha}</td>
+                        <td className="px-4 py-3 fw-bold">{a.nombre}</td>
+                        <td className="px-4 py-3 text-secondary">{a.especialidad}</td>
+                        <td className="px-4 py-3 text-secondary">{a.nivel}</td>
+                        <td className="px-4 py-3">
+                          <span
+                            className={`badge ${a.estado === "Pendiente" ? "bg-warning text-dark" : "bg-success"} border px-3 py-2 rounded-pill shadow-sm`}
+                          >
+                            {a.estado}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-center">
+                          <div className="d-flex justify-content-center gap-3">
+                            
+                            {/* Icono Ojo (Ver Detalles) */}
+                            <div style={{ cursor: "pointer" }} title="Ver Detalles del Perfil" onClick={() => setModalDetalles(true)}>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#0d6efd" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                              </svg>
+                            </div>
 
-                        {/* Icono Check (Marcar como Revisado) */}
-                        <div style={{ cursor: "pointer" }} title="Marcar como Revisado">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#198754" viewBox="0 0 16 16">
-                            <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-                          </svg>
-                        </div>
+                            {/* Icono Check (Marcar como Revisado) */}
+                            <div style={{ cursor: "pointer" }} title="Marcar como Revisado">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#198754" viewBox="0 0 16 16">
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                              </svg>
+                            </div>
 
-                        {/* Icono Calendario (Agendar Entrevista) */}
-                        <div style={{ cursor: "pointer" }} title="Agendar Entrevista" onClick={() => setModalEntrevista(true)}>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0dcaf0" viewBox="0 0 16 16">
-                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                            <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
-                          </svg>
-                        </div>
+                            {/* Icono Calendario (Agendar Entrevista) */}
+                            <div style={{ cursor: "pointer" }} title="Agendar Entrevista" onClick={() => setModalEntrevista(true)}>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0dcaf0" viewBox="0 0 16 16">
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                              </svg>
+                            </div>
 
-                        {/* Icono Sobre (Enviar Resolución) */}
-                        <div style={{ cursor: "pointer" }} title="Enviar Resolución">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#6c757d" viewBox="0 0 16 16">
-                            <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
-                          </svg>
-                        </div>
+                            {/* Icono Sobre (Enviar Resolución) */}
+                            <div style={{ cursor: "pointer" }} title="Enviar Resolución">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#6c757d" viewBox="0 0 16 16">
+                                <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                              </svg>
+                            </div>
 
-                      </div>
-                    </td>
-                  </tr>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
