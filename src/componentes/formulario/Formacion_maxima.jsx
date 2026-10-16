@@ -14,7 +14,7 @@ export function FormacionAcademica({ user, onChange }) {
     <>
       <h5>Formación Académica</h5>
       <div className="mb-3 mx-auto" style={{ maxWidth: "800px" }}>
-        <label className="form-label d-block">Especialidades *</label>
+        <label className="form-label d-block">Especialidades * (Se pueden selecionar varias)</label>
         <div style={{ maxWidth: "800px", padding: "1rem" }}>
           <Select
             closeMenuOnSelect={false}
@@ -59,7 +59,7 @@ export function FormacionAcademica({ user, onChange }) {
         {/* Columna para Otras Formaciones */}
 
         <label className="form-label" id="">
-          Otras Formaciones <i className="bi bi-bookmark"></i>
+          Otras formaciones relevantes para la postulación<i className="bi bi-bookmark"></i>
         </label>
 
         <input

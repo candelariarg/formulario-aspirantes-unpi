@@ -45,8 +45,8 @@ return (
   <div className="container p-2">
     <div className="card mx-auto" style={{ maxWidth: "400px" }}>
       <div className="card-body">
-        <h5 className="text-center mb-3">Acceso Panel de Control</h5>
-        <img className="logo d-block mx-auto mb-4" src="./logo-unpi.png" alt="logo-unpi" />
+        <img className="logo d-block mx-auto mb-4 logo-login" src="./logo-unpi.png" alt="logo-unpi" />
+        <h5 className="text-center mb-3 titulo-panel">Acceso Panel de Control</h5>
         <form onSubmit={handleSumbitLogin}>
           <div className="mb-3 text-start">
             <label className="form-label">Correo electrónico</label>

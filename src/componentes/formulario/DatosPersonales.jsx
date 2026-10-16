@@ -50,6 +50,9 @@ export function DatosPersonales({ user, onChange, required }) {
             name="dni"
             value={user?.dni || ""}
             onChange={onChange}
+            minLength={7}
+            maxLength={8}
+            title="El DNI debe contener solo números y tener un máximo de 7-8 dígitos."
             required
           />
         </div>

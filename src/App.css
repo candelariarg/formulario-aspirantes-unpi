@@ -32,7 +32,7 @@ body {
 
 /* Simplemente ajusto el tamanio del logo */
 .logo {
-  width: 30%;
+  width: 40%;
   margin: 0 auto;
   
 }
@@ -92,4 +92,20 @@ body {
 .dropdown-item:active {
   background-color: #0d6efd !important;
   color: #ffffff !important;
+}
+
+.titulo-panel {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #00579e;
+}
+
+.logo-login {
+  width: 60%;
+}
+
+.titulo-panel {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #00579e;
 }
