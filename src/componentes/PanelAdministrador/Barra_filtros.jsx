@@ -10,7 +10,7 @@ const ESPECIALIDADES = [
     "Construccion e ingenierias",
 ];
 
-const NIVELES = ["Grado", "Maestría", "Doctorado"];
+const NIVELES = ["Grado", "Pregrado", "Especialización", "Maestría", "Doctorado"];
 
 const ESTADOS = ["Pendiente", "Revisado", "Entrevista Agendada"];
 
