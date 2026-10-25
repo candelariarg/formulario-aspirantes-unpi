@@ -9,7 +9,7 @@ export function BarraBusquedaPanel({ busqueda, setBusqueda }) {
             <input
                 type="text"
                 className="form-control border-secondary-subtle border-start-0 ps-0"
-                placeholder="Apellido o nombre..."
+                placeholder="Apellido, nombre o DNI..."
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
             />

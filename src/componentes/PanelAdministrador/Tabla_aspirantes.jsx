@@ -1,25 +1,44 @@
-import React from "react";
-
 import { IconosPanelAdmin } from "./Iconos_panel.jsx";
+import { claseEstado, normalizarEstado } from "./estados.js";
+import { mostrar, nombreCompleto } from "./utiles.js";
 
-const estiloEstado = (estado) => {
-  switch (estado) {
-    case "Revisado":
-      return "bg-success";
-    case "Entrevista Agendada":
-      return "bg-info text-dark";
-    case "Pendiente":
-    default:
-      return "bg-warning text-dark";
+const COLUMNAS = [
+  "DNI",
+  "Apellido y Nombre",
+  "Especialidad",
+  "Experiencia Docente",
+  "Nivel de Titulación",
+  "Estado",
+  "Acciones",
+];
+
+// La experiencia docente viene como texto del backend; se muestra como badge
+// salvo que no haya dato, para no repetir la condición en cada fila.
+function BadgeExperiencia({ valor }) {
+  if (!valor) return <span className="text-secondary">—</span>;
+
+  if (valor.toLowerCase() === "nunca fue docente") {
+    return (
+      <span className="badge bg-secondary-subtle text-secondary-emphasis border border-secondary-subtle px-3 py-2 rounded-pill">
+        Sin experiencia
+      </span>
+    );
   }
-};
+
+  return (
+    <span className="badge bg-primary-subtle text-primary-emphasis border border-primary-subtle px-3 py-2 rounded-pill">
+      {valor}
+    </span>
+  );
+}
 
 export function TablaAspirantes({
   aspirantes,
-  busqueda,
   colorPrimario = "#14589f",
   onVerDetalles,
-  onAgendarEntrevista
+  onMarcarRevisado,
+  onAgendarEntrevista,
+  onEnviarResolucion,
 }) {
   return (
     <div className="bg-white rounded shadow-sm overflow-hidden border w-100">
@@ -27,63 +46,46 @@ export function TablaAspirantes({
         <table className="table table-hover align-middle mb-0 text-start">
           <thead>
             <tr>
-              <th className="py-3 px-4 fw-medium text-white" style={{ backgroundColor: colorPrimario }}>
-                Apellido y Nombre
-              </th>
-              <th className="py-3 px-4 fw-medium text-white" style={{ backgroundColor: colorPrimario }}>
-                Especialidad
-              </th>
-              <th className="py-3 px-4 fw-medium text-white" style={{ backgroundColor: colorPrimario }}>
-                Experiencia Docente
-              </th>
-              <th className="py-3 px-4 fw-medium text-white" style={{ backgroundColor: colorPrimario }}>
-                Nivel de Titulación
-              </th>
-              <th className="py-3 px-4 fw-medium text-white" style={{ backgroundColor: colorPrimario }}>
-                Estado
-              </th>
-              <th
-                className="py-3 px-4 fw-medium text-white text-center"
-                style={{ backgroundColor: colorPrimario, width: "180px" }}
-              >
-                Acciones
-              </th>
+              {COLUMNAS.map((columna) => (
+                <th
+                  key={columna}
+                  className="py-3 px-4 fw-medium text-white"
+                  style={{ backgroundColor: colorPrimario }}
+                >
+                  {columna}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className="border-top-0">
-            {aspirantes.length === 0 ? (
-              <tr>
-                <td colSpan={6} className="text-center text-secondary py-4">
-                  No se encontraron aspirantes para "{busqueda}"
-                </td>
-              </tr>
-            ) : (
-              aspirantes.map((a) => (
-                <tr key={a.id}>
-                  <td className="px-4 py-3 fw-medium">
-                    {a.apellido_y_nombre || `${a.apellido}, ${a.nombre}`}
-                  </td>
-                  <td className="px-4 py-3 text-secondary">{a.especialidad || "—"}</td>
-                  <td className="px-4 py-3 text-secondary">
-                    {a.exp_docente || a.situacion_institucional || "—"}
-                  </td>
-                  <td className="px-4 py-3 text-secondary">{a.nivel_de_titulacion || "—"}</td>
+            {aspirantes.map((postulante) => {
+              const estado = normalizarEstado(postulante.estado);
+              return (
+                <tr key={postulante.id}>
+                  <td className="px-4 py-3 text-secondary">{mostrar(postulante.dni)}</td>
+                  <td className="px-4 py-3 fw-medium">{nombreCompleto(postulante)}</td>
+                  <td className="px-4 py-3 text-secondary">{mostrar(postulante.especialidad)}</td>
                   <td className="px-4 py-3">
-                    <span
-                      className={`badge ${estiloEstado(a.estado)} border px-3 py-2 rounded-pill shadow-sm`}
-                    >
-                      {a.estado || "Pendiente"}
+                    <BadgeExperiencia valor={postulante.exp_docente} />
+                  </td>
+                  <td className="px-4 py-3 text-secondary">{mostrar(postulante.nivel_titulacion)}</td>
+                  <td className="px-4 py-3">
+                    <span className={`badge ${claseEstado(estado)} border px-3 py-2 rounded-pill shadow-sm`}>
+                      {estado}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-center">
                     <IconosPanelAdmin
-                      onVerDetalles={() => onVerDetalles(a)}
-                      onAgendarEntrevista={() => onAgendarEntrevista(a)}
+                      esPendiente={estado === "Pendiente"}
+                      onVerDetalles={() => onVerDetalles?.(postulante)}
+                      onMarcarRevisado={() => onMarcarRevisado?.(postulante)}
+                      onAgendarEntrevista={() => onAgendarEntrevista?.(postulante)}
+                      onEnviarResolucion={() => onEnviarResolucion?.(postulante)}
                     />
                   </td>
                 </tr>
-              ))
-            )}
+              );
+            })}
           </tbody>
         </table>
       </div>

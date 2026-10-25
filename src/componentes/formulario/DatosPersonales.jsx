@@ -1,4 +1,13 @@
 import { Residencia } from "./Residencia_del_usuario";
+import { Obligatorio } from "./Obligatorio.jsx";
+
+// Tope del selector de fecha: hoy. El año mínimo (1900) se declara en el input
+// y coincide con lo que valida Validar.js.
+const hoy = new Date();
+const FECHA_MAXIMA = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}-${String(
+  hoy.getDate(),
+).padStart(2, "0")}`;
+
 export function DatosPersonales({ user, onChange, required }) {
   // aca voy a crear la estructura que va a tener el formulario, por ejemplo el nombre, apellido, dni, telefono, etc
   // uso el  el componente 'div' para crear los campos del formulario, el componente 'input-group' para agrupar los campos,
@@ -15,7 +24,7 @@ export function DatosPersonales({ user, onChange, required }) {
       <div className="row">
         {/* Nombre */}
         <div className="col-md-6 mb-3">
-          <label className="form-label">Nombre *</label>
+          <label className="form-label">Nombre <Obligatorio /></label>
           <input
             type="text"
             className="form-control"
@@ -28,7 +37,7 @@ export function DatosPersonales({ user, onChange, required }) {
 
         {/* Apellido */}
         <div className="col-md-6 mb-3">
-          <label className="form-label">Apellido *</label>
+          <label className="form-label">Apellido <Obligatorio /></label>
           <input
             type="text"
             className="form-control"
@@ -41,7 +50,7 @@ export function DatosPersonales({ user, onChange, required }) {
 
         {/* DNI */}
         <div className="col-md-6 mb-3">
-          <label className="form-label">DNI *</label>
+          <label className="form-label">DNI <Obligatorio /></label>
           <input
             type="text"
             inputMode="numeric"
@@ -57,22 +66,24 @@ export function DatosPersonales({ user, onChange, required }) {
           />
         </div>
 
-        {/* Fecha de Nacimiento */}
+        {/* fecha de nacimiento: selector nativo del navegador */}
         <div className="col-md-6 mb-3">
-          <label className="form-label">Fecha de nacimiento *</label>
+          <label className="form-label">Fecha de nacimiento <Obligatorio /></label>
           <input
             type="date"
             className="form-control"
             name="fechaNacimiento"
             value={user?.fechaNacimiento || ""}
             onChange={onChange}
+            min="1900-01-01"
+            max={FECHA_MAXIMA}
             required
           />
         </div>
 
         {/* Teléfono */}
         <div className="col-md-6 mb-3">
-          <label className="form-label">Teléfono *</label>
+          <label className="form-label">Teléfono <Obligatorio /></label>
           <input
             type="text"
             inputMode="numeric"
@@ -81,13 +92,14 @@ export function DatosPersonales({ user, onChange, required }) {
             name="telefono"
             value={user?.telefono || ""}
             onChange={onChange}
+            maxLength={15}
             required
           />
         </div>
 
         {/* Correo electrónico */}
-        <div className="col-md-6 mb-3" style={{ maxWidth: "800px" }} x>
-          <label className="form-label">Correo electrónico *</label>
+        <div className="col-md-6 mb-3" style={{ maxWidth: "800px" }}>
+          <label className="form-label">Correo electrónico <Obligatorio /></label>
           <input
             type="email"
             className="form-control"

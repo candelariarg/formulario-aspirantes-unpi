@@ -1,4 +1,5 @@
 import { BarraBusquedaPanel } from "./Busqueda_panel.jsx";
+import { ESTADOS } from "./estados.js";
 
 const ESPECIALIDADES = [
     "Humanidades y Ciencias Sociales",
@@ -11,8 +12,6 @@ const ESPECIALIDADES = [
 ];
 
 const NIVELES = ["Grado", "Pregrado", "Especialización", "Maestría", "Doctorado"];
-
-const ESTADOS = ["Pendiente", "Revisado", "Entrevista Agendada"];
 
 export function BarraFiltros({
     busqueda,
@@ -29,7 +28,7 @@ export function BarraFiltros({
 }) {
     return (
         <div className="row g-3 mb-4 p-4 bg-white rounded shadow-sm align-items-end text-start mx-0 w-100">
-            {/* Buscar Postulante */}
+            {/* buscar postulante */}
             <div className="col-xl-3 col-lg-3 col-md-6">
                 <label className="form-label mb-1 fw-bold text-secondary small">Buscar Postulante</label>
                 <BarraBusquedaPanel
@@ -38,7 +37,7 @@ export function BarraFiltros({
                 />
             </div>
 
-            {/* Especialidad */}
+            {/* especialidad */}
             <div className="col-xl-3 col-lg-3 col-md-6">
                 <label className="form-label mb-1 fw-bold text-secondary small">Especialidad</label>
                 <select
@@ -46,14 +45,14 @@ export function BarraFiltros({
                     value={especialidad}
                     onChange={(e) => setEspecialidad(e.target.value)}
                 >
-                    <option value="">Seleccione...</option>
+                    <option value="">Todas</option>
                     {ESPECIALIDADES.map((esp) => (
                         <option key={esp} value={esp}>{esp}</option>
                     ))}
                 </select>
             </div>
 
-            {/* Nivel de Titulación */}
+            {/* nivel de titulacion */}
             <div className="col-xl-2 col-lg-2 col-md-6">
                 <label className="form-label mb-1 fw-bold text-secondary small">Nivel de Titulación</label>
                 <select
@@ -68,7 +67,7 @@ export function BarraFiltros({
                 </select>
             </div>
 
-            {/* Exp. Docente */}
+            {/* exp. docente */}
             <div className="col-xl-2 col-lg-2 col-md-6">
                 <label className="form-label mb-1 fw-bold text-secondary small">Exp. Docente</label>
                 <select
@@ -82,7 +81,7 @@ export function BarraFiltros({
                 </select>
             </div>
 
-            {/* Estado */}
+            {/* estado */}
             <div className="col-xl-2 col-lg-2 col-md-6">
                 <label className="form-label mb-1 fw-bold text-secondary small">Estado</label>
                 <select
@@ -97,7 +96,7 @@ export function BarraFiltros({
                 </select>
             </div>
 
-            {/* Botones */}
+            {/* botones */}
             <div className="col-12 d-flex gap-2 justify-content-end mt-3">
                 <button className="btn btn-outline-secondary px-4" onClick={onLimpiar}>
                     Limpiar

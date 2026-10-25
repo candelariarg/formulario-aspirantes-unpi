@@ -1,15 +1,24 @@
 body {
   min-height: 100vh;
   margin: 0;
-  /* La primera capa (gradiente) va sobre la segunda (imagen) */
+  /* La primera capa (gradiente) va sobre la segunda (imagen).
+     La imagen queda en public/: Vite sirve public/ en la raíz y copia el archivo
+     al build, así no se duplica el JPEG de 234 KB dentro de src/. */
   background-image: 
     linear-gradient(rgba(10, 35, 70, 0.55), rgba(10, 35, 70, 0.55)),
-    url("/public/1-nuevo-edificio.jpeg");
+    url("/1-nuevo-edificio.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+/* Peso tipográfico uniforme para los badges de estado del panel */
+.badge {
+  --bs-badge-font-weight: 500;
+  font-weight: 500;
+}
+
 .App {
   min-height: 100vh;
   display: flex;
@@ -104,8 +113,11 @@ body {
   width: 60%;
 }
 
-.titulo-panel {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #00579e;
+/* Asterisco de campo obligatorio: más chico que el texto, sin mover la línea */
+.campo-obligatorio {
+  color: #dc3545;
+  font-size: 0.85em;
+  font-weight: 700;
+  margin-left: 2px;
+  line-height: 1;
 }

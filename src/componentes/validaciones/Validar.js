@@ -1,5 +1,3 @@
-//Aca van las validaciones para cada uno de los campos del formulario.
-//Busque como se validaba en React esos datos y me aparecieron estos codigos generales, se utiliza Regex.
 export const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const regexCorreo = regexEmail;
 
@@ -7,14 +5,48 @@ export const regexDni = /^\d{7,8}$/;
 
 export const regexTelefono = /^\d{10,15}$/;
 
-//Esta funcion se fija campo por campo, si es que el usuario completo bien los datos.
-//Por lo que vi, para que no quede un matete de "if... else..." por cada dato, se puede usar el "switch" y el "case".
+// valida que la fecha tenga formato dd/mm/yyyy o yyyy-mm-dd y exista en el calendario
+export function esFechaValida(valor) {
+  if (typeof valor !== "string" || !valor.trim()) return false;
+  const limpio = valor.trim();
+
+  const matchDMY = limpio.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (matchDMY) {
+    const dia = parseInt(matchDMY[1], 10);
+    const mes = parseInt(matchDMY[2], 10);
+    const anio = parseInt(matchDMY[3], 10);
+    const fecha = new Date(Date.UTC(anio, mes - 1, dia));
+    return (
+      fecha.getUTCFullYear() === anio &&
+      fecha.getUTCMonth() === mes - 1 &&
+      fecha.getUTCDate() === dia &&
+      anio >= 1900 &&
+      anio <= new Date().getFullYear()
+    );
+  }
+
+  const matchYMD = limpio.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (matchYMD) {
+    const anio = parseInt(matchYMD[1], 10);
+    const mes = parseInt(matchYMD[2], 10);
+    const dia = parseInt(matchYMD[3], 10);
+    const fecha = new Date(Date.UTC(anio, mes - 1, dia));
+    return (
+      fecha.getUTCFullYear() === anio &&
+      fecha.getUTCMonth() === mes - 1 &&
+      fecha.getUTCDate() === dia &&
+      anio >= 1900 &&
+      anio <= new Date().getFullYear()
+    );
+  }
+
+  return false;
+}
+
 export function campoCompletado(nombreDelCampo, valor) {
-  switch (nombreDelCampo) { //El switch aca va a ir chequeando cada uno de los campos del formulario, y el case va a ser cada uno de los campos que se van a validar.
-    //Switch significa "chequear", y case significa "caso", o sea, cada caso del formulario que se va a chequear. Osea cada campo.
+  switch (nombreDelCampo) {
     case "nombre":
     case "apellido":
-      //Que no este vacio.
       return typeof valor === "string" && valor.trim().length > 0;
 
     case "dni":
@@ -28,7 +60,6 @@ export function campoCompletado(nombreDelCampo, valor) {
 
     case "nivelTitulacion":
     case "formacion":
-      //Esta bien si el usuario ya eligio alguna opcion (no quedo vacio).
       return valor !== "" && valor !== null && valor !== undefined;
 
     case "residencia":
@@ -41,10 +72,9 @@ export function campoCompletado(nombreDelCampo, valor) {
       return typeof valor === "boolean";
 
     case "fechaNacimiento":
-      return typeof valor === "string" && valor.trim().length > 0;
+      return esFechaValida(valor);
 
     case "cv":
-      //Esta bien si hay un archivo cargado (osea, no es null ni vacio).
       return valor !== null && valor !== undefined && valor !== "";
 
     default:
@@ -88,7 +118,7 @@ export function validarFormulario(user) {
   }
 
   if (!campoCompletado("fechaNacimiento", user.fechaNacimiento)) {
-    errores.fechaNacimiento = "La fecha de nacimiento es obligatoria.";
+    errores.fechaNacimiento = "La fecha de nacimiento es obligatoria y debe ser una fecha válida.";
   }
 
   return {
@@ -96,5 +126,3 @@ export function validarFormulario(user) {
     errores,
   };
 }
-
-

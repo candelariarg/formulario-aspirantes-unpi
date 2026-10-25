@@ -3,6 +3,7 @@ import React from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { especialidades } from "../../docs/data.js";
+import { Obligatorio } from "./Obligatorio.jsx";
 
 const animatedComponents = makeAnimated();
 export function FormacionAcademica({ user, onChange }) {
@@ -14,7 +15,7 @@ export function FormacionAcademica({ user, onChange }) {
     <>
       <h5>Formación Académica</h5>
       <div className="mb-3 mx-auto" style={{ maxWidth: "800px" }}>
-        <label className="form-label d-block">Especialidades * (Se pueden selecionar varias)</label>
+        <label className="form-label d-block">Especialidades <Obligatorio /> (Se pueden selecionar varias)</label>
         <div style={{ maxWidth: "800px", padding: "1rem" }}>
           <Select
             closeMenuOnSelect={false}
@@ -37,7 +38,7 @@ export function FormacionAcademica({ user, onChange }) {
 
       <div className="mb-3 mx-auto" style={{ maxWidth: "800px" }}>
         <label className="form-label d-block">
-          Nivel máximo de titulación *
+          Nivel máximo de titulación <Obligatorio />
         </label>
         <select
           className="form-select"
@@ -49,8 +50,8 @@ export function FormacionAcademica({ user, onChange }) {
           <option value="">Seleccionar...</option>
           <option value="Pregrado">Pregrado</option>
           <option value="Grado">Grado</option>
-          <option value="Especializacion">Especialización</option>
-          <option value="Maestria">Maestría</option>
+          <option value="Especialización">Especialización</option>
+          <option value="Maestría">Maestría</option>
           <option value="Doctorado">Doctorado</option>
         </select>
       </div>

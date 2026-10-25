@@ -1,106 +1,58 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { EncabezadoPanelAdmin } from "./Encabezado_panel.jsx";
 import { BarraFiltros } from "./Barra_filtros.jsx";
+import { TablaAspirantes } from "./Tabla_aspirantes.jsx";
+import { Paginacion } from "./Paginacion.jsx";
 import { ModalDetalles } from "./Modal_detalles.jsx";
 import { ModalEntrevista } from "./Modal_entrevista.jsx";
-import { TablaAspirantes } from "./Tabla_aspirantes.jsx";
+import { usePostulantes } from "./hooks/usePostulantes.js";
 
-const API_POSTULANTES = "http://localhost:3001/api/postulantes";
+const COLOR_PRIMARIO = "#14589f";
+const COLOR_ACENTO = "#0d6efd";
+const FILTROS_VACIOS = { busqueda: "", especialidad: "", nivel: "", expDocente: "", estado: "" };
 
+// Pantalla del panel: solo arma el layout. Los datos y la paginación viven en
+// usePostulantes, así el componente queda fácil de leer.
 export function PanelPrincipal() {
-  const [modalDetalles, setModalDetalles] = useState(false);
-  const [modalEntrevista, setModalEntrevista] = useState(false);
-  const [busqueda, setBusqueda] = useState("");
-  const [especialidad, setEspecialidad] = useState("");
-  const [nivel, setNivel] = useState("");
-  const [expDocente, setExpDocente] = useState("");
-  const [estado, setEstado] = useState("");
-  const [aspirantes, setAspirantes] = useState([]);
-  const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState("");
+  const [filtros, setFiltros] = useState(FILTROS_VACIOS);
+  const [postulante, setPostulante] = useState(null);
+  const [verDetalles, setVerDetalles] = useState(false);
+  const [agendarEntrevista, setAgendarEntrevista] = useState(false);
 
-  const colorPrimario = "#14589f";
-  const colorAcento = "#0d6efd";
+  const { lista, total, paginas, pagina, setPagina, cargando, error, porPagina, cambiarEstado } =
+    usePostulantes(filtros);
 
-  const limpiarFiltros = () => {
-    setBusqueda("");
-    setEspecialidad("");
-    setNivel("");
-    setExpDocente("");
-    setEstado("");
+  const filtrando = Object.values(filtros).some(Boolean);
+  const cambiarFiltro = (campo) => (valor) => setFiltros((prev) => ({ ...prev, [campo]: valor }));
+  const limpiarFiltros = () => setFiltros(FILTROS_VACIOS);
+
+  const cambiarEstadoPostulante = async (id, nuevoEstado) => {
+    try {
+      await cambiarEstado(id, nuevoEstado);
+      setPostulante((prev) => (prev && prev.id === id ? { ...prev, estado: nuevoEstado } : prev));
+    } catch (err) {
+      alert(err.message || "Error al actualizar el estado del postulante.");
+    }
   };
 
-  useEffect(() => {
-    const cargarPostulantes = async () => {
-      setCargando(true);
-      setError("");
-
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("No hay sesión activa. Iniciá sesión como administrador.");
-        setCargando(false);
-        return;
-      }
-
-      try {
-        const res = await fetch(API_POSTULANTES, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (res.status === 401 || res.status === 403) {
-          setError("Sesión expirada o inválida. Volvé a iniciar sesión.");
-          setCargando(false);
-          return;
-        }
-
-        if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
-          throw new Error(data.error || `Error al cargar postulantes (HTTP ${res.status})`);
-        }
-
-        const data = await res.json();
-        setAspirantes(Array.isArray(data) ? data : []);
-      } catch (err) {
-        setError(err.message || "Error al cargar las postulaciones.");
-      } finally {
-        setCargando(false);
-      }
-    };
-
-    cargarPostulantes();
-  }, []);
-
-  const normalizar = (texto) =>
-    texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-  const aspirantesFiltrados = aspirantes.filter((a) => {
-    // Búsqueda por texto (nombre, apellido, DNI, email)
-    const nombreCompleto = a.apellido_y_nombre || `${a.apellido}, ${a.nombre}`;
-    const texto = normalizar(`${nombreCompleto} ${a.dni || ""} ${a.mail || ""}`);
-    const palabras = normalizar(busqueda).split(" ").filter(Boolean);
-    if (!palabras.every((p) => texto.includes(p))) return false;
-
-    // Especialidad
-    if (especialidad && (a.especialidad || "") !== especialidad) return false;
-
-    // Nivel de titulación
-    if (nivel && (a.nivel_academico || "") !== nivel) return false;
-
-    // Estado
-    if (estado && (a.estado || "Pendiente") !== estado) return false;
-
-    // Experiencia docente
-    if (expDocente) {
-      const situacion = ((a.exp_docente || a.situacion_institucional) || "").toLowerCase();
-      if (expDocente === "Sí") {
-        if (situacion !== "es docente" && situacion !== "fue docente") return false;
-      } else if (expDocente === "No") {
-        if (situacion !== "nunca fue docente") return false;
-      }
+  const enviarCorreoResolucion = (seleccionado) => {
+    if (!seleccionado?.mail) {
+      alert("Este postulante no tiene un correo electrónico registrado.");
+      return;
     }
+    const asunto = encodeURIComponent("Postulación Docente - UNPilar");
+    window.location.href = `mailto:${seleccionado.mail}?subject=${asunto}`;
+  };
 
-    return true;
-  });
+  const abrirDetalles = (seleccionado) => {
+    setPostulante(seleccionado);
+    setVerDetalles(true);
+  };
+
+  const abrirEntrevista = (seleccionado) => {
+    setPostulante(seleccionado);
+    setAgendarEntrevista(true);
+  };
 
   return (
     <div
@@ -118,69 +70,76 @@ export function PanelPrincipal() {
     >
       <div className="container-fluid py-4 px-4 px-xl-5 d-flex flex-column align-items-center">
         <div className="w-100">
+          <EncabezadoPanelAdmin colorPrimario={COLOR_PRIMARIO} />
 
-          {/* Encabezado */}
-          <EncabezadoPanelAdmin colorPrimario={colorPrimario} />
-
-          {/* Barra de Filtros */}
           <BarraFiltros
-            colorPrimario={colorPrimario}
-            busqueda={busqueda}
-            setBusqueda={setBusqueda}
-            especialidad={especialidad}
-            setEspecialidad={setEspecialidad}
-            nivel={nivel}
-            setNivel={setNivel}
-            expDocente={expDocente}
-            setExpDocente={setExpDocente}
-            estado={estado}
-            setEstado={setEstado}
+            colorPrimario={COLOR_PRIMARIO}
+            busqueda={filtros.busqueda}
+            setBusqueda={cambiarFiltro("busqueda")}
+            especialidad={filtros.especialidad}
+            setEspecialidad={cambiarFiltro("especialidad")}
+            nivel={filtros.nivel}
+            setNivel={cambiarFiltro("nivel")}
+            expDocente={filtros.expDocente}
+            setExpDocente={cambiarFiltro("expDocente")}
+            estado={filtros.estado}
+            setEstado={cambiarFiltro("estado")}
             onLimpiar={limpiarFiltros}
           />
 
-          {/* Tabla de Aspirantes */}
-          {cargando ? (
+          {error ? (
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          ) : cargando ? (
             <div className="text-center py-5">
-              <div className="spinner-border" style={{ color: colorPrimario }} role="status">
+              <div className="spinner-border" style={{ color: COLOR_PRIMARIO }} role="status">
                 <span className="visually-hidden">Cargando...</span>
               </div>
               <p className="text-secondary mt-3 mb-0">Cargando postulaciones...</p>
             </div>
-          ) : error ? (
-            <div className="alert alert-danger d-flex align-items-center gap-2" role="alert">
-              <span>{error}</span>
-            </div>
-          ) : aspirantesFiltrados.length === 0 ? (
+          ) : total === 0 ? (
             <div className="text-center py-5 text-secondary">
-              {busqueda || especialidad || nivel || expDocente || estado
+              {filtrando
                 ? "No se encontraron postulaciones que coincidan con los filtros."
                 : "Todavía no hay postulaciones enviadas."}
             </div>
           ) : (
-            <TablaAspirantes
-              aspirantes={aspirantesFiltrados}
-              busqueda={busqueda}
-              colorPrimario={colorPrimario}
-              onVerDetalles={() => setModalDetalles(true)}
-              onAgendarEntrevista={() => setModalEntrevista(true)}
-            />
+            <>
+              <TablaAspirantes
+                aspirantes={lista}
+                colorPrimario={COLOR_PRIMARIO}
+                onVerDetalles={abrirDetalles}
+                onMarcarRevisado={(seleccionado) => cambiarEstadoPostulante(seleccionado.id, "Revisado")}
+                onAgendarEntrevista={abrirEntrevista}
+                onEnviarResolucion={enviarCorreoResolucion}
+              />
+              <Paginacion
+                pagina={pagina}
+                paginas={paginas}
+                total={total}
+                porPagina={porPagina}
+                onCambiar={setPagina}
+              />
+            </>
           )}
-
         </div>
 
-        {/* Modales */}
         <ModalDetalles
-          modalDetalles={modalDetalles}
-          setModalDetalles={setModalDetalles}
-          colorPrimario={colorPrimario}
+          modalDetalles={verDetalles}
+          setModalDetalles={setVerDetalles}
+          postulante={postulante}
+          onCambiarEstado={cambiarEstadoPostulante}
+          colorPrimario={COLOR_PRIMARIO}
         />
         <ModalEntrevista
-          modalEntrevista={modalEntrevista}
-          setModalEntrevista={setModalEntrevista}
-          colorPrimario={colorPrimario}
-          colorAcento={colorAcento}
+          modalEntrevista={agendarEntrevista}
+          setModalEntrevista={setAgendarEntrevista}
+          postulante={postulante}
+          onConfirmarEntrevista={(seleccionado) => cambiarEstadoPostulante(seleccionado.id, "A Entrevistar")}
+          colorPrimario={COLOR_PRIMARIO}
+          colorAcento={COLOR_ACENTO}
         />
-
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_BASE_URL } from "../../config/api";
 
 export function LoginUsuario({ onLoginExitoso }) {
   const [credenciales, setCredenciales] = useState({
@@ -16,7 +17,7 @@ export function LoginUsuario({ onLoginExitoso }) {
 
   const handleSumbitLogin = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:3001/api/auth/login", {
+    const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,6 +39,10 @@ export function LoginUsuario({ onLoginExitoso }) {
       alert("¡Inicio de sesión exitoso!");
       onLoginExitoso();
     }
+
+    else {
+      alert("Error al iniciar sesión. Por favor, intenta nuevamente.");
+    }
   }
 
 
@@ -45,8 +50,8 @@ return (
   <div className="container p-2">
     <div className="card mx-auto" style={{ maxWidth: "400px" }}>
       <div className="card-body">
-        <img className="logo d-block mx-auto mb-4 logo-login" src="./logo-unpi.png" alt="logo-unpi" />
-        <h5 className="text-center mb-3 titulo-panel">Acceso Panel de Control</h5>
+        <img className="logo d-block mx-auto mb-4 logo-login" src="/logo-unpi.png" alt="logo-unpi" />
+        <h5 className="text-center mb-3 titulo-panel">Portal de postulaciones</h5>
         <form onSubmit={handleSumbitLogin}>
           <div className="mb-3 text-start">
             <label className="form-label">Correo electrónico</label>
