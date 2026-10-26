@@ -1,0 +1,36 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.19.0
+2 info using node@v24.21.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:C:\Users\maure\OneDrive\Desktop\formulario-aspirantes-unpi\.npmrc
+5 silly config load:file:C:\Users\maure\.npmrc
+6 silly config load:file:C:\Users\maure\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install bootstrap-icons
+8 verbose argv "install" "--save" "--no-audit" "--no-fund" "--ignore-scripts" "bootstrap-icons"
+9 verbose logfile logs-max:10 dir:C:\Users\maure\OneDrive\Desktop\formulario-aspirantes-unpi\.npm-cache\_logs\2026-10-25T06_22_56_554Z-
+10 verbose logfile C:\Users\maure\OneDrive\Desktop\formulario-aspirantes-unpi\.npm-cache\_logs\2026-10-25T06_22_56_554Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 silly idealTree buildDeps
+14 silly fetch manifest bootstrap-icons@*
+15 silly packumentCache full:https://registry.npmjs.org/bootstrap-icons cache-miss
+16 http fetch GET 200 https://registry.npmjs.org/npm 140ms
+17 http fetch GET 200 https://registry.npmjs.org/bootstrap-icons 88ms (cache miss)
+18 silly packumentCache full:https://registry.npmjs.org/bootstrap-icons set size:undefined disposed:false
+19 silly placeDep ROOT bootstrap-icons@1.13.2 OK for: formulario-aspirantes-unpi@0.1.0 want: *
+20 silly reify moves {}
+21 http cache bootstrap-icons@https://registry.npmjs.org/bootstrap-icons/-/bootstrap-icons-1.13.2.tgz 0ms (cache hit)
+22 silly tarball no local data for bootstrap-icons@https://registry.npmjs.org/bootstrap-icons/-/bootstrap-icons-1.13.2.tgz. Extracting by manifest.
+23 http fetch GET 200 https://registry.npmjs.org/bootstrap-icons/-/bootstrap-icons-1.13.2.tgz 2137ms (cache miss)
+24 silly ADD node_modules/bootstrap-icons
+25 verbose cwd C:\Users\maure\OneDrive\Desktop\formulario-aspirantes-unpi
+26 verbose os Windows_NT 10.0.26200
+27 verbose node v24.21.0
+28 verbose npm  v11.19.0
+29 notice
+29 notice New major version of npm available! 11.19.0 -> 12.2.1
+29 notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+29 notice To update run: npm install -g npm@12.2.1
+29 notice  { force: true, Symbol(proc-log.meta): true }
+30 verbose exit 0
+31 info ok
