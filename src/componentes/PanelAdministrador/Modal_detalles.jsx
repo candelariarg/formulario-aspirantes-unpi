@@ -1,8 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dato } from "./Dato.jsx";
 import { ESTADOS, normalizarEstado } from "./estados.js";
 import { useCvBlob } from "./hooks/useCvBlob.js";
 import { formatearFecha, mostrar, nombreCompleto } from "./utiles.js";
+
+// Largo máximo de las observaciones de la entrevista.
+const MAX_COMENTARIO = 400;
+
+// El backend todavía no tiene un campo para el comentario de la entrevista, así
+// que se guarda en este navegador (localStorage), indexado por id de postulante.
+// Cuando la API lo soporte, alcanza con reemplazar estas tres funciones por fetch.
+const CLAVE_COMENTARIOS = "unpilar:comentarios-entrevista";
+
+function leerComentarios() {
+  try {
+    const guardados = JSON.parse(window.localStorage.getItem(CLAVE_COMENTARIOS) || "{}");
+    return guardados && typeof guardados === "object" ? guardados : {};
+  } catch {
+    return {};
+  }
+}
+
+function leerComentario(id) {
+  if (!id) return "";
+  return leerComentarios()[id] || "";
+}
+
+function escribirComentario(id, texto) {
+  const todos = leerComentarios();
+  if (texto) todos[id] = texto;
+  else delete todos[id];
+  window.localStorage.setItem(CLAVE_COMENTARIOS, JSON.stringify(todos));
+}
 
 // Ficha del postulante con vista previa del CV. La descarga usa el mismo blob que
 // ya se pidió para la vista previa, así no se hace dos veces la petición.
@@ -14,7 +43,18 @@ export function ModalDetalles({
   colorPrimario = "#14589f",
 }) {
   const [actualizando, setActualizando] = useState(false);
+  const [verComentario, setVerComentario] = useState(false);
+  const [comentario, setComentario] = useState("");
+  const [errorComentario, setErrorComentario] = useState("");
   const { url: pdfUrl, cargando: cargandoPdf, error: errorPdf } = useCvBlob(postulante, modalDetalles);
+
+  // Al abrir la ficha de otro postulante el editor arranca cerrado y con el
+  // comentario que ya está guardado (o vacío si todavía no hay).
+  useEffect(() => {
+    setVerComentario(false);
+    setComentario(leerComentario(postulante?.id));
+    setErrorComentario("");
+  }, [postulante?.id, modalDetalles]);
 
   const estado = normalizarEstado(postulante?.estado);
   const etiquetas = postulante?.etiquetas || [];
@@ -28,6 +68,34 @@ export function ModalDetalles({
     } finally {
       setActualizando(false);
     }
+  };
+
+  const guardarComentarioEntrevista = () => {
+    if (!postulante?.id) return;
+
+    const texto = comentario.trim();
+    if (texto.length > MAX_COMENTARIO) {
+      setErrorComentario(`El comentario no puede superar los ${MAX_COMENTARIO} caracteres.`);
+      return;
+    }
+
+    try {
+      escribirComentario(postulante.id, texto);
+      setComentario(texto);
+      setErrorComentario("");
+      setVerComentario(false);
+    } catch {
+      setErrorComentario(
+        "No se pudo guardar el comentario en este navegador (almacenamiento bloqueado o lleno).",
+      );
+    }
+  };
+
+  // Descarta lo escrito y vuelve a lo que está guardado.
+  const cancelarComentario = () => {
+    setComentario(leerComentario(postulante?.id));
+    setErrorComentario("");
+    setVerComentario(false);
   };
 
   const descargar = () => {
@@ -96,6 +164,73 @@ export function ModalDetalles({
                           <span>{mostrar(postulante.especialidad)}</span>
                         )}
                       </div>
+                    </div>
+
+                    {/* Observaciones de la entrevista: plegadas por defecto, se abren con "Ver más" */}
+                    <div className="col-12 mt-3 pt-3 border-top">
+                      <div className="d-flex justify-content-between align-items-center gap-2">
+                        <small className="text-secondary d-block fw-bold">Comentarios del postulante</small>
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-primary"
+                          onClick={() => setVerComentario((abierto) => !abierto)}
+                          aria-expanded={verComentario}
+                        >
+                          {verComentario ? "Ver menos" : "Ver más"}
+                        </button>
+                      </div>
+
+                      {verComentario ? (
+                        <div className="mt-2">
+                          <textarea
+                            className="form-control border-secondary-subtle"
+                            rows={5}
+                            maxLength={MAX_COMENTARIO}
+                            value={comentario}
+                            onChange={(e) => setComentario(e.target.value.slice(0, MAX_COMENTARIO))}
+                            aria-label="Comentario sobre el postulante"
+                            placeholder="Impresiones del postulante, disponibilidad, expectativas, etc. (máx. 400 caracteres)"
+                          />
+                          <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-2">
+                            <small
+                              className={
+                                MAX_COMENTARIO - comentario.length <= 40 ? "text-danger" : "text-secondary"
+                              }
+                            >
+                              {comentario.length}/{MAX_COMENTARIO} caracteres
+                            </small>
+                            <div className="d-flex gap-2">
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-outline-secondary"
+                                onClick={cancelarComentario}
+                              >
+                                Cancelar
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-sm text-white"
+                                style={{ backgroundColor: colorPrimario }}
+                                onClick={guardarComentarioEntrevista}
+                                title="El comentario se guarda en este navegador"
+                              >
+                                Guardar comentario
+                              </button>
+                            </div>
+                          </div>
+                          {errorComentario && (
+                            <div className="alert alert-warning py-2 px-3 mt-2 mb-0 small">{errorComentario}</div>
+                          )}
+                        </div>
+                      ) : comentario.trim() ? (
+                        <p className="mb-0 mt-2" style={{ whiteSpace: "pre-wrap" }}>
+                          {comentario}
+                        </p>
+                      ) : (
+                        <p className="mb-0 mt-2 text-secondary fst-italic">
+                          Todavía no hay comentarios sobre la entrevista.
+                        </p>
+                      )}
                     </div>
 
                     <div className="col-12 mt-3 pt-3 border-top">
