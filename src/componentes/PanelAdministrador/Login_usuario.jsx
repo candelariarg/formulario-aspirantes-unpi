@@ -79,14 +79,6 @@ return (
             Ingresar
           </button>
 
-          {/* Nuevo enlace para crear cuenta */}
-          <div className="text-center mt-3">
-            <span className="text-muted small">¿No tienes cuenta? </span>
-            <a href="#/" className="text-decoration-none fw-bold small" style={{ color: "#0d6efd" }}>
-              Crea una cuenta
-            </a>
-          </div>
-
         </form>
       </div>
     </div>
